@@ -1,0 +1,10 @@
+{
+  "name": "Samadhan Jharkhand",
+  "description": "Government of Jharkhand societal innovation platform connecting citizen grievance reporting with university innovation, CSR funding, and ground validation.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
