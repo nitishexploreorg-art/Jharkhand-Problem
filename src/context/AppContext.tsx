@@ -1,14 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Problem, UserRole, NotificationItem, PlatformStage, Milestone } from '../types';
 import { INITIAL_PROBLEMS } from '../data/jharkhandData';
+import { Language, getSavedLanguage, saveLanguage, translate } from '../i18n';
 
 interface AppContextType {
   problems: Problem[];
   currentRole: UserRole;
   setCurrentRole: (role: UserRole) => void;
-  language: 'hi' | 'en';
-  setLanguage: (lang: 'hi' | 'en') => void;
+  userRole: UserRole;
+  setUserRole: (role: UserRole) => void;
+  language: Language;
+  setLanguage: (lang: Language) => void;
   toggleLanguage: () => void;
+  t: (key: string, params?: Record<string, string | number>) => string;
   notifications: NotificationItem[];
   addNotification: (notif: Omit<NotificationItem, 'id' | 'timestamp' | 'read'>) => void;
   dismissNotification: (id: string) => void;
@@ -55,7 +59,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const [currentRole, setCurrentRole] = useState<UserRole>('citizen');
-  const [language, setLanguage] = useState<'hi' | 'en'>('hi');
+  // Persistent bilingual state defaulting to Hindi ('hi')
+  const [language, setLanguageState] = useState<Language>(getSavedLanguage);
   const [searchQuery, setSearchQuery] = useState<string>('');
   
   const [notifications, setNotifications] = useState<NotificationItem[]>([
@@ -87,8 +92,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [problems]);
 
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    saveLanguage(lang);
+  };
+
   const toggleLanguage = () => {
-    setLanguage((prev) => (prev === 'hi' ? 'en' : 'hi'));
+    const nextLang = language === 'hi' ? 'en' : 'hi';
+    setLanguage(nextLang);
+  };
+
+  const t = (key: string, params?: Record<string, string | number>) => {
+    return translate(language, key, params);
   };
 
   const addNotification = (notif: Omit<NotificationItem, 'id' | 'timestamp' | 'read'>) => {
@@ -379,9 +394,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         problems,
         currentRole,
         setCurrentRole,
+        userRole: currentRole,
+        setUserRole: setCurrentRole,
         language,
         setLanguage,
         toggleLanguage,
+        t,
         notifications,
         addNotification,
         dismissNotification,

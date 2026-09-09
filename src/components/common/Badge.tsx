@@ -1,7 +1,19 @@
 import React from 'react';
 import { PlatformStage, PriorityLevel } from '../../types';
 import { PLATFORM_STAGES } from '../../data/jharkhandData';
-import { AlertTriangle, CheckCircle2, Clock, Sparkles, ShieldCheck, Award, Users, Coins, Hammer, MapPin } from 'lucide-react';
+import {
+  AlertTriangle,
+  CheckCircle2,
+  Clock,
+  Sparkles,
+  ShieldCheck,
+  Award,
+  Users,
+  Coins,
+  Hammer,
+  MapPin,
+} from 'lucide-react';
+import { useApp } from '../../context/AppContext';
 
 export interface StatusBadgeProps {
   stage: PlatformStage;
@@ -11,9 +23,10 @@ export interface StatusBadgeProps {
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({
   stage,
-  showHindi = true,
   size = 'md',
 }) => {
+  const { language } = useApp();
+  const isHi = language === 'hi';
   const stageDef = PLATFORM_STAGES.find((s) => s.stage === stage) || PLATFORM_STAGES[0];
 
   const sizeClasses = {
@@ -49,15 +62,15 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     }
   };
 
+  const displayText = isHi ? stageDef.labelHi : stageDef.labelEn;
+
   return (
     <span
       className={`inline-flex items-center whitespace-nowrap shadow-xs ${sizeClasses[size]} ${stageDef.color}`}
-      title={stageDef.shortDescEn}
+      title={isHi ? stageDef.shortDescHi : stageDef.shortDescEn}
     >
       {getStageIcon()}
-      <span>
-        {showHindi ? `${stageDef.labelHi} (${stageDef.labelEn})` : stageDef.labelEn}
-      </span>
+      <span>{displayText}</span>
     </span>
   );
 };
@@ -68,6 +81,9 @@ export interface PriorityBadgeProps {
 }
 
 export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority, showIcon = true }) => {
+  const { language } = useApp();
+  const isHi = language === 'hi';
+
   const configs: Record<
     PriorityLevel,
     { labelEn: string; labelHi: string; class: string; iconClass: string }
@@ -115,8 +131,7 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority, showIcon
           }`}
         />
       )}
-      <span>{c.labelHi}</span>
-      <span className="text-[10px] opacity-75 uppercase tracking-wider">({c.labelEn})</span>
+      <span>{isHi ? c.labelHi : c.labelEn}</span>
     </span>
   );
 };
@@ -124,8 +139,14 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority, showIcon
 export const CategoryBadge: React.FC<{ nameEn: string; nameHi?: string }> = ({
   nameEn,
   nameHi,
-}) => (
-  <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-800 border border-slate-200 whitespace-nowrap">
-    {nameHi ? `${nameHi} • ${nameEn}` : nameEn}
-  </span>
-);
+}) => {
+  const { language } = useApp();
+  const isHi = language === 'hi';
+  const label = isHi ? nameHi || nameEn : nameEn;
+
+  return (
+    <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200 whitespace-nowrap">
+      {label}
+    </span>
+  );
+};

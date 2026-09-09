@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Mail, Globe, Shield, Eye, FileText, CheckCircle2 } from 'lucide-react';
 import { Modal } from '../common/Modal';
+import { useApp } from '../../context/AppContext';
 
 export const Footer: React.FC = () => {
   const [activeModal, setActiveModal] = useState<'contact' | 'privacy' | 'accessibility' | null>(null);
+  const { language, t } = useApp();
+  const isHi = language === 'hi';
 
   return (
     <footer className="bg-slate-900 text-slate-300 pt-10 pb-8 border-t-4 border-emerald-600">
@@ -17,42 +20,45 @@ export const Footer: React.FC = () => {
                 JH
               </div>
               <h3 className="text-white font-extrabold text-lg tracking-tight">
-                Samadhan Jharkhand <span className="text-emerald-400 font-normal text-sm">| समाधान झारखंड</span>
+                Samadhan Jharkhand{' '}
+                <span className="text-emerald-400 font-normal text-sm">
+                  {isHi ? '| समाधान झारखंड' : '| State Grievance Innovation Exchange'}
+                </span>
               </h3>
             </div>
             <p className="text-xs text-slate-400 max-w-md leading-relaxed">
-              झारखंड के आम नागरिकों की वास्तविक समस्याओं को विश्वविद्यालयी नवाचार और सीएसआर सहयोग से हल करने का राज्य मंच।
+              {t('footer.desc')}
             </p>
           </div>
 
-          {/* Requested Links: About, Contact, Privacy, Social Audit, Accessibility */}
+          {/* Links */}
           <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold">
             <Link to="/about" className="text-slate-300 hover:text-emerald-400 transition-colors">
-              About (हमारे बारे में)
+              {isHi ? 'हमारे बारे में (About)' : 'About Us'}
             </Link>
             <button
               type="button"
               onClick={() => setActiveModal('contact')}
               className="text-slate-300 hover:text-emerald-400 transition-colors"
             >
-              Contact (संपर्क)
+              {isHi ? 'संपर्क (Contact)' : 'Contact'}
             </button>
             <button
               type="button"
               onClick={() => setActiveModal('privacy')}
               className="text-slate-300 hover:text-emerald-400 transition-colors"
             >
-              Privacy (गोपनीयता नीति)
+              {isHi ? 'गोपनीयता नीति (Privacy)' : 'Privacy Policy'}
             </button>
             <Link to="/social-audit" className="text-slate-300 hover:text-emerald-400 transition-colors">
-              Social Audit (सामाजिक ऑडिट)
+              {isHi ? 'सामाजिक ऑडिट (Social Audit)' : 'Social Audit'}
             </Link>
             <button
               type="button"
               onClick={() => setActiveModal('accessibility')}
               className="text-slate-300 hover:text-emerald-400 transition-colors"
             >
-              Accessibility (सुलभता)
+              {isHi ? 'सुलभता (Accessibility)' : 'Accessibility'}
             </button>
           </nav>
         </div>
@@ -61,11 +67,11 @@ export const Footer: React.FC = () => {
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-3">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            <span>© 2026 Government of Jharkhand • Prototype for Hackathon Demonstration</span>
+            <span>{t('footer.copyright')}</span>
           </div>
 
           <div className="text-[11px] text-slate-400">
-            सीएम हेल्पलाइन: <strong className="text-emerald-400">181</strong> (टोल-फ्री) | आपातकालीन: <strong className="text-emerald-400">112</strong>
+            {t('footer.helpline')}
           </div>
         </div>
       </div>
@@ -74,24 +80,35 @@ export const Footer: React.FC = () => {
       <Modal
         isOpen={activeModal === 'contact'}
         onClose={() => setActiveModal(null)}
-        title="Contact Us / संपर्क निर्देशिका"
-        titleHi="सहायता डेस्क"
+        title={isHi ? 'संपर्क निर्देशिका (Contact Us)' : 'Contact Us'}
         maxWidth="md"
       >
         <div className="space-y-4 text-xs text-slate-700">
           <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1 text-emerald-950">
-            <strong className="block text-sm font-bold">मुख्यमंत्री जनसंवाद केंद्र (CM Helpline)</strong>
-            <p>टोल-फ्री हेल्पलाइन संख्या: <strong>181</strong> (प्रातः 8:00 से रात्रि 8:00 तक)</p>
+            <strong className="block text-sm font-bold">
+              {isHi ? 'मुख्यमंत्री जनसंवाद केंद्र (CM Helpline)' : 'Chief Minister Public Grievance Helpline'}
+            </strong>
+            <p>
+              {isHi
+                ? 'टोल-फ्री हेल्पलाइन संख्या: 181 (प्रातः 8:00 से रात्रि 8:00 तक)'
+                : 'Toll-Free Helpline Number: 181 (8:00 AM - 8:00 PM)'}
+            </p>
           </div>
 
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-emerald-600" />
-              <span>ईमेल: <strong>samadhan@jharkhand.gov.in</strong></span>
+              <span>
+                {isHi ? 'ईमेल:' : 'Email:'} <strong>samadhan@jharkhand.gov.in</strong>
+              </span>
             </div>
             <div className="flex items-start gap-2">
               <Globe className="w-4 h-4 text-emerald-600 mt-0.5" />
-              <span>पता: योजना एवं विकास विभाग, प्रोजेक्ट भवन, धुर्वा, राँची - 834004, झारखण्ड</span>
+              <span>
+                {isHi
+                  ? 'पता: योजना एवं विकास विभाग, प्रोजेक्ट भवन, धुर्वा, राँची - 834004, झारखण्ड'
+                  : 'Address: Department of Planning & Development, Project Bhawan, Dhurwa, Ranchi - 834004, Jharkhand'}
+              </span>
             </div>
           </div>
         </div>
@@ -101,19 +118,27 @@ export const Footer: React.FC = () => {
       <Modal
         isOpen={activeModal === 'privacy'}
         onClose={() => setActiveModal(null)}
-        title="Privacy Policy / गोपनीयता नीति"
-        titleHi="डेटा सुरक्षा"
+        title={isHi ? 'गोपनीयता नीति (Privacy Policy)' : 'Privacy Policy'}
         maxWidth="md"
       >
         <div className="space-y-3 text-xs text-slate-700 leading-relaxed">
           <p>
-            1. <strong>नागरिक पहचान गोपनीयता:</strong> नागरिक द्वारा दर्ज की गई समस्या पर उनका मोबाइल नंबर केवल अंतिम चार अंकों के साथ प्रदर्शित किया जाता है।
+            1. <strong>{isHi ? 'नागरिक पहचान गोपनीयता:' : 'Citizen Privacy:'}</strong>{' '}
+            {isHi
+              ? 'नागरिक द्वारा दर्ज की गई समस्या पर उनका मोबाइल नंबर केवल अंतिम चार अंकों के साथ प्रदर्शित किया जाता है।'
+              : 'Citizen phone numbers are masked displaying only the last four digits.'}
           </p>
           <p>
-            2. <strong>साक्ष्य फोटो एवं जीपीएस:</strong> अपलोड की गई तस्वीरें केवल समस्या के सत्यापन, एआई विश्लेषण एवं छात्र प्रोटोटाइप विकास हेतु उपयोग की जाती हैं।
+            2. <strong>{isHi ? 'साक्ष्य फोटो एवं जीपीएस:' : 'Photo & GPS Evidence:'}</strong>{' '}
+            {isHi
+              ? 'अपलोड की गई तस्वीरें केवल समस्या के सत्यापन, एआई विश्लेषण एवं छात्र प्रोटोटाइप विकास हेतु उपयोग की जाती हैं।'
+              : 'Uploaded photographic evidence and geolocation data are utilized strictly for problem verification and student solution development.'}
           </p>
           <p>
-            3. <strong>प्रोटोटाइप प्रकटीकरण:</strong> यह सॉफ्टवेयर एक हैकाथॉन प्रोटोटाइप है। कोई भी वित्तीय या व्यक्तिगत संवेदनशील डेटा तीसरे पक्ष के साथ साझा नहीं किया जाता।
+            3. <strong>{isHi ? 'प्रोटोटाइप प्रकटीकरण:' : 'Prototype Compliance:'}</strong>{' '}
+            {isHi
+              ? 'यह सॉफ्टवेयर एक हैकाथॉन प्रोटोटाइप है। कोई भी वित्तीय या व्यक्तिगत संवेदनशील डेटा तीसरे पक्ष के साथ साझा नहीं किया जाता।'
+              : 'This platform is a hackathon innovation prototype. No sensitive personal data is shared with unverified third parties.'}
           </p>
         </div>
       </Modal>
@@ -122,19 +147,27 @@ export const Footer: React.FC = () => {
       <Modal
         isOpen={activeModal === 'accessibility'}
         onClose={() => setActiveModal(null)}
-        title="Accessibility / सुलभता विकल्प"
-        titleHi="दिव्यांगजन सुलभता"
+        title={isHi ? 'सुलभता (Accessibility Statement)' : 'Accessibility Statement'}
         maxWidth="md"
       >
         <div className="space-y-3 text-xs text-slate-700 leading-relaxed">
           <p>
-            1. <strong>सरल हिंदी व अंग्रेजी भाषा:</strong> ग्रामीण और आम नागरिकों के लिए स्पष्ट और सरल भाषा में सभी शीर्षक और विकल्प उपलब्ध हैं।
+            1. <strong>{isHi ? 'सरल हिंदी व अंग्रेजी भाषा:' : 'Bilingual Support:'}</strong>{' '}
+            {isHi
+              ? 'ग्रामीण और आम नागरिकों के लिए स्पष्ट और सरल भाषा में सभी शीर्षक और विकल्प उपलब्ध हैं।'
+              : 'Simple, natural Hindi and clear English accessible for citizens across all literacy levels.'}
           </p>
           <p>
-            2. <strong>उच्च कंट्रास्ट एवं बड़े टच बटन:</strong> मोबाइल फोन एवं कम रोशनी में भी स्पष्ट रूप से दिखाई देने वाले रंग और बटन आकार।
+            2. <strong>{isHi ? 'उच्च कंट्रास्ट एवं बड़े टच बटन:' : 'High Contrast & Touch Targets:'}</strong>{' '}
+            {isHi
+              ? 'मोबाइल फोन एवं कम रोशनी में भी स्पष्ट रूप से दिखाई देने वाले रंग और बटन आकार।'
+              : 'Designed with minimum 44px touch targets and accessible contrast for outdoor sunlight readability.'}
           </p>
           <p>
-            3. <strong>स्क्रीन रीडर अनुकूल:</strong> सभी छवियों में उपयुक्त ऑल्ट टैग और सिमेंटिक एचटीएमएल प्रयुक्त है।
+            3. <strong>{isHi ? 'स्क्रीन रीडर अनुकूल:' : 'Screen Reader Ready:'}</strong>{' '}
+            {isHi
+              ? 'सभी छवियों में उपयुक्त ऑल्ट टैग और सिमेंटिक एचटीएमएल प्रयुक्त है।'
+              : 'Semantic HTML5 structure and descriptive alt tags across all civic evidence media.'}
           </p>
         </div>
       </Modal>
