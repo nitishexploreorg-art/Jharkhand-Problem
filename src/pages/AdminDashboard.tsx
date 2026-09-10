@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { StatusBadge, PriorityBadge, CategoryBadge } from '../components/common/Badge';
 import { Button } from '../components/common/Button';
@@ -35,6 +35,7 @@ import {
   FileText,
   MessageSquare,
   AlertCircle,
+  Settings,
 } from 'lucide-react';
 
 // Demo Heatmap Data for Jharkhand Districts
@@ -174,12 +175,40 @@ const DISTRICT_HEATMAP_DATA: DistrictHeatmapData[] = [
 
 export const AdminDashboard: React.FC = () => {
   const { problems, updateProblemStage, addNotification, resetProblems } = useApp();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get('tab') || 'overview';
 
   // District filter - Default to Khunti District as requested
   const [selectedDistrict, setSelectedDistrict] = useState<string>('Khunti');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'PENDING' | 'VERIFIED' | 'IN_PROGRESS' | 'RESOLVED'>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('ALL');
+
+  // Handle Tab Switch
+  const handleTabChange = (tab: string) => {
+    if (tab === 'overview') {
+      setSearchParams({});
+      setStatusFilter('ALL');
+    } else {
+      setSearchParams({ tab });
+      if (tab === 'verification') {
+        setStatusFilter('PENDING');
+      } else if (tab === 'projects') {
+        setStatusFilter('IN_PROGRESS');
+      } else if (tab === 'queue') {
+        setStatusFilter('ALL');
+      }
+    }
+  };
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab === 'verification') {
+      setStatusFilter('PENDING');
+    } else if (tab === 'projects') {
+      setStatusFilter('IN_PROGRESS');
+    }
+  }, [searchParams]);
 
   // Track dynamic admin statuses locally (e.g. "More Info Requested", "Rejected", "Verified & Open for College Adoption")
   const [adminStatusOverrides, setAdminStatusOverrides] = useState<Record<string, string>>({});
@@ -208,21 +237,21 @@ export const AdminDashboard: React.FC = () => {
       if (override === 'Verified & Open for College Adoption') {
         return {
           label: 'Verified & Open for College Adoption',
-          badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+          badgeClass: 'bg-emerald-950/60 text-emerald-300 border-emerald-700/60',
           isPending: false,
         };
       }
       if (override === 'More Info Requested') {
         return {
           label: 'More Info Requested (अतिरिक्त जानकारी मांगी)',
-          badgeClass: 'bg-blue-100 text-blue-800 border-blue-300',
+          badgeClass: 'bg-blue-950/60 text-blue-300 border-blue-700/60',
           isPending: true,
         };
       }
       if (override === 'Rejected') {
         return {
           label: 'Rejected (अस्वीकृत)',
-          badgeClass: 'bg-rose-100 text-rose-800 border-rose-300',
+          badgeClass: 'bg-rose-950/60 text-rose-300 border-rose-700/60',
           isPending: false,
         };
       }
@@ -231,7 +260,7 @@ export const AdminDashboard: React.FC = () => {
     if (p.currentStage === 'REPORTED' || p.currentStage === 'AI_PROCESSED') {
       return {
         label: 'Pending Admin Verification',
-        badgeClass: 'bg-amber-100 text-amber-800 border-amber-300',
+        badgeClass: 'bg-amber-950/60 text-amber-300 border-amber-700/60',
         isPending: true,
       };
     }
@@ -239,7 +268,7 @@ export const AdminDashboard: React.FC = () => {
     if (p.currentStage === 'ADMIN_VERIFIED' || p.currentStage === 'CHALLENGE_PUBLISHED') {
       return {
         label: 'Verified & Open for College Adoption',
-        badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+        badgeClass: 'bg-emerald-950/60 text-emerald-300 border-emerald-700/60',
         isPending: false,
       };
     }
@@ -251,7 +280,7 @@ export const AdminDashboard: React.FC = () => {
     ) {
       return {
         label: 'In Progress (समाधान विकास जारी)',
-        badgeClass: 'bg-purple-100 text-purple-800 border-purple-300',
+        badgeClass: 'bg-purple-950/60 text-purple-300 border-purple-700/60',
         isPending: false,
       };
     }
@@ -259,14 +288,14 @@ export const AdminDashboard: React.FC = () => {
     if (p.currentStage === 'RESOLVED') {
       return {
         label: 'Resolved & Audited (समाधान पूर्ण)',
-        badgeClass: 'bg-green-100 text-green-900 border-green-300',
+        badgeClass: 'bg-emerald-950/60 text-emerald-300 border-emerald-700/60',
         isPending: false,
       };
     }
 
     return {
       label: 'Pending Admin Verification',
-      badgeClass: 'bg-amber-100 text-amber-800 border-amber-300',
+      badgeClass: 'bg-amber-950/60 text-amber-300 border-amber-700/60',
       isPending: true,
     };
   };
@@ -439,23 +468,23 @@ export const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="min-h-screen bg-[#060d0a] text-slate-100 py-8 px-4 sm:px-6 lg:px-8 space-y-8">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* ========================================================================= */}
         {/* 1. DASHBOARD HEADER */}
         {/* ========================================================================= */}
-        <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl border-b-4 border-emerald-500 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="bg-[#11231b] text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-[#1e382b] border-t-4 border-t-emerald-500 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>झारखंड सरकार • समाधान प्रशासनिक कंसोल</span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white">
               District Administration Dashboard
             </h1>
 
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#8ea598] leading-relaxed">
               नागरिक जनसमस्याओं का सत्यापन, एआई छंटाई समीक्षा, तकनीकी प्राथमिकता निर्धारण एवं इंजीनियरिंग संस्थानों व सीएसआर हेतु चुनौती अनुमोदन।
             </p>
           </div>
@@ -463,9 +492,9 @@ export const AdminDashboard: React.FC = () => {
           {/* Demo District Selector & Quick Actions */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto shrink-0">
             {/* Demo District Indicator & Switcher */}
-            <div className="p-3 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-xs space-y-1">
+            <div className="p-3 bg-[#0d1e17] rounded-2xl border border-[#1e382b] text-xs space-y-1">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[11px] font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1">
+                <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1">
                   <MapPin className="w-3.5 h-3.5" />
                   <span>सक्रिय जिला (Demo District)</span>
                 </span>
@@ -475,7 +504,7 @@ export const AdminDashboard: React.FC = () => {
               <select
                 value={selectedDistrict}
                 onChange={(e) => setSelectedDistrict(e.target.value)}
-                className="w-full bg-slate-900/90 text-white font-black text-sm px-3 py-1.5 rounded-xl border border-white/30 focus:outline-hidden focus:ring-2 focus:ring-emerald-400"
+                className="w-full bg-[#060d0a] text-white font-black text-sm px-3 py-1.5 rounded-xl border border-[#1e382b] focus:outline-hidden focus:ring-2 focus:ring-emerald-400"
               >
                 <option value="Khunti">Khunti District (खूंटी - Demo)</option>
                 <option value="Ranchi">Ranchi (राँची)</option>
@@ -492,13 +521,108 @@ export const AdminDashboard: React.FC = () => {
             <button
               type="button"
               onClick={resetProblems}
-              className="px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+              className="px-3 py-2 rounded-xl bg-[#0d1e17] hover:bg-[#162e22] text-slate-300 hover:text-white border border-[#1e382b] text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
               title="Reset sample problems to initial state"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>रीसेट डेटा</span>
             </button>
           </div>
+        </div>
+
+        {/* Admin Role Navigation Tabs */}
+        <div className="bg-[#11231b] rounded-2xl p-2 border border-[#1e382b] shadow-md flex items-center gap-1.5 overflow-x-auto">
+          <button
+            type="button"
+            onClick={() => handleTabChange('overview')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'overview'
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'text-slate-300 hover:text-white hover:bg-[#162e22]'
+            }`}
+          >
+            📊 Dashboard (डैशबोर्ड)
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleTabChange('verification')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'verification'
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'text-slate-300 hover:text-white hover:bg-[#162e22]'
+            }`}
+          >
+            🔍 Problem Verification (समस्या सत्यापन)
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleTabChange('queue')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'queue'
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'text-slate-300 hover:text-white hover:bg-[#162e22]'
+            }`}
+          >
+            📋 Problem Queue (समस्या कतार)
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleTabChange('map')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'map'
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'text-slate-300 hover:text-white hover:bg-[#162e22]'
+            }`}
+          >
+            🗺️ District Map (जिला मानचित्र)
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleTabChange('projects')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'projects'
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'text-slate-300 hover:text-white hover:bg-[#162e22]'
+            }`}
+          >
+            🎓 Projects (अंगीकृत परियोजनाएं)
+          </button>
+
+          <Link
+            to="/ground-deployment"
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-[#162e22] whitespace-nowrap transition-all flex items-center gap-1"
+          >
+            <span>🚀 Deployment (अधिष्ठापन)</span>
+            <ExternalLink className="w-3 h-3 text-slate-400" />
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => handleTabChange('analytics')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'analytics'
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'text-slate-300 hover:text-white hover:bg-[#162e22]'
+            }`}
+          >
+            📈 Analytics (एनालिटिक्स)
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleTabChange('settings')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'settings'
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'text-slate-300 hover:text-white hover:bg-[#162e22]'
+            }`}
+          >
+            ⚙️ Settings (सेटिंग्स)
+          </button>
         </div>
 
         {/* ========================================================================= */}
@@ -509,20 +633,20 @@ export const AdminDashboard: React.FC = () => {
           <button
             type="button"
             onClick={() => setStatusFilter('ALL')}
-            className={`p-4 sm:p-5 rounded-2xl text-left border transition-all ${
+            className={`p-4 sm:p-5 rounded-2xl text-left border transition-all cursor-pointer ${
               statusFilter === 'ALL'
-                ? 'bg-blue-50 border-blue-400 ring-2 ring-blue-400/30 shadow-md'
-                : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
+                ? 'bg-[#162e22] border-emerald-500 ring-2 ring-emerald-500/30 shadow-md'
+                : 'bg-[#11231b] border-[#1e382b] hover:border-emerald-500/40 shadow-xs'
             }`}
           >
-            <div className="flex items-center justify-between text-xs text-slate-500 font-bold mb-1">
+            <div className="flex items-center justify-between text-xs text-[#8ea598] font-bold mb-1">
               <span>New Problems</span>
-              <Activity className="w-4 h-4 text-blue-600" />
+              <Activity className="w-4 h-4 text-blue-400" />
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-slate-900 font-mono">
+            <div className="text-2xl sm:text-3xl font-black text-white font-mono">
               {kpiStats.newProblems}
             </div>
-            <span className="text-[11px] text-blue-700 font-semibold block mt-1">
+            <span className="text-[11px] text-blue-300 font-semibold block mt-1">
               नई प्राप्त शिकायतें
             </span>
           </button>
@@ -531,20 +655,20 @@ export const AdminDashboard: React.FC = () => {
           <button
             type="button"
             onClick={() => setStatusFilter('PENDING')}
-            className={`p-4 sm:p-5 rounded-2xl text-left border transition-all ${
+            className={`p-4 sm:p-5 rounded-2xl text-left border transition-all cursor-pointer ${
               statusFilter === 'PENDING'
-                ? 'bg-amber-50 border-amber-400 ring-2 ring-amber-400/30 shadow-md'
-                : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
+                ? 'bg-[#162e22] border-amber-500 ring-2 ring-amber-500/30 shadow-md'
+                : 'bg-[#11231b] border-[#1e382b] hover:border-amber-500/40 shadow-xs'
             }`}
           >
-            <div className="flex items-center justify-between text-xs text-amber-800 font-bold mb-1">
+            <div className="flex items-center justify-between text-xs text-[#8ea598] font-bold mb-1">
               <span>Pending Verification</span>
-              <Clock className="w-4 h-4 text-amber-600" />
+              <Clock className="w-4 h-4 text-amber-400" />
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-amber-700 font-mono">
+            <div className="text-2xl sm:text-3xl font-black text-amber-400 font-mono">
               {kpiStats.pendingVerification}
             </div>
-            <span className="text-[11px] text-amber-800 font-semibold block mt-1">
+            <span className="text-[11px] text-amber-300 font-semibold block mt-1">
               सत्यापन हेतु लंबित
             </span>
           </button>
@@ -553,20 +677,20 @@ export const AdminDashboard: React.FC = () => {
           <button
             type="button"
             onClick={() => setStatusFilter('VERIFIED')}
-            className={`p-4 sm:p-5 rounded-2xl text-left border transition-all ${
+            className={`p-4 sm:p-5 rounded-2xl text-left border transition-all cursor-pointer ${
               statusFilter === 'VERIFIED'
-                ? 'bg-emerald-50 border-emerald-400 ring-2 ring-emerald-400/30 shadow-md'
-                : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
+                ? 'bg-[#162e22] border-emerald-500 ring-2 ring-emerald-500/30 shadow-md'
+                : 'bg-[#11231b] border-[#1e382b] hover:border-emerald-500/40 shadow-xs'
             }`}
           >
-            <div className="flex items-center justify-between text-xs text-emerald-800 font-bold mb-1">
+            <div className="flex items-center justify-between text-xs text-[#8ea598] font-bold mb-1">
               <span>Verified Problems</span>
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-emerald-700 font-mono">
+            <div className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
               {kpiStats.verifiedProblems}
             </div>
-            <span className="text-[11px] text-emerald-800 font-semibold block mt-1">
+            <span className="text-[11px] text-emerald-300 font-semibold block mt-1">
               स्वीकृत तकनीकी चुनौतियां
             </span>
           </button>
@@ -575,20 +699,20 @@ export const AdminDashboard: React.FC = () => {
           <button
             type="button"
             onClick={() => setStatusFilter('IN_PROGRESS')}
-            className={`p-4 sm:p-5 rounded-2xl text-left border transition-all ${
+            className={`p-4 sm:p-5 rounded-2xl text-left border transition-all cursor-pointer ${
               statusFilter === 'IN_PROGRESS'
-                ? 'bg-purple-50 border-purple-400 ring-2 ring-purple-400/30 shadow-md'
-                : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
+                ? 'bg-[#162e22] border-purple-500 ring-2 ring-purple-500/30 shadow-md'
+                : 'bg-[#11231b] border-[#1e382b] hover:border-purple-500/40 shadow-xs'
             }`}
           >
-            <div className="flex items-center justify-between text-xs text-purple-800 font-bold mb-1">
+            <div className="flex items-center justify-between text-xs text-[#8ea598] font-bold mb-1">
               <span>In Progress</span>
-              <Layers className="w-4 h-4 text-purple-600" />
+              <Layers className="w-4 h-4 text-purple-400" />
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-purple-700 font-mono">
+            <div className="text-2xl sm:text-3xl font-black text-purple-300 font-mono">
               {kpiStats.inProgress}
             </div>
-            <span className="text-[11px] text-purple-800 font-semibold block mt-1">
+            <span className="text-[11px] text-purple-300 font-semibold block mt-1">
               छात्र/सीएसआर विकास जारी
             </span>
           </button>
@@ -597,20 +721,20 @@ export const AdminDashboard: React.FC = () => {
           <button
             type="button"
             onClick={() => setStatusFilter('RESOLVED')}
-            className={`p-4 sm:p-5 rounded-2xl text-left border transition-all col-span-2 lg:col-span-1 ${
+            className={`p-4 sm:p-5 rounded-2xl text-left border transition-all col-span-2 lg:col-span-1 cursor-pointer ${
               statusFilter === 'RESOLVED'
-                ? 'bg-green-50 border-green-400 ring-2 ring-green-400/30 shadow-md'
-                : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
+                ? 'bg-[#162e22] border-emerald-500 ring-2 ring-emerald-500/30 shadow-md'
+                : 'bg-[#11231b] border-[#1e382b] hover:border-emerald-500/40 shadow-xs'
             }`}
           >
-            <div className="flex items-center justify-between text-xs text-green-900 font-bold mb-1">
+            <div className="flex items-center justify-between text-xs text-[#8ea598] font-bold mb-1">
               <span>Resolved</span>
-              <ShieldCheck className="w-4 h-4 text-green-700" />
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-green-800 font-mono">
+            <div className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
               {kpiStats.resolved}
             </div>
-            <span className="text-[11px] text-green-800 font-semibold block mt-1">
+            <span className="text-[11px] text-emerald-300 font-semibold block mt-1">
               जमीनी अधिष्ठापन व ऑडिट
             </span>
           </button>
@@ -619,17 +743,17 @@ export const AdminDashboard: React.FC = () => {
         {/* ========================================================================= */}
         {/* 3. PROBLEM QUEUE & FILTER CONTROLS */}
         {/* ========================================================================= */}
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden space-y-4">
+        <div className="bg-[#11231b] rounded-3xl border border-[#1e382b] shadow-md overflow-hidden space-y-4">
           {/* Header Bar with Search & Filters */}
-          <div className="p-5 sm:p-6 border-b border-slate-100 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="p-5 sm:p-6 border-b border-[#1e382b] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg sm:text-xl font-black text-slate-900 flex items-center gap-2">
+              <h2 className="text-lg sm:text-xl font-black text-white flex items-center gap-2">
                 <span>District Problem Queue</span>
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono font-bold">
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#0d1e17] text-emerald-400 border border-[#1e382b] font-mono font-bold">
                   {filteredProblems.length} Records
                 </span>
               </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-[#8ea598] mt-0.5">
                 {selectedDistrict === 'ALL'
                   ? 'झारखंड के सभी जिलों की सत्यापन कतार'
                   : `${selectedDistrict} जिले की सक्रिय जनसमस्याएं एवं प्रशासनिक कार्रवाई सूची`}
@@ -645,14 +769,14 @@ export const AdminDashboard: React.FC = () => {
                   placeholder="खोजें (Search ID, Village...)"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#060d0a] border border-[#1e382b] text-xs text-slate-200 placeholder:text-slate-500 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="py-2 px-3 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                className="py-2 px-3 rounded-xl bg-[#060d0a] border border-[#1e382b] text-xs font-semibold text-slate-200 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
               >
                 <option value="ALL">All Categories (सभी विभाग)</option>
                 {JHARKHAND_CATEGORIES.map((c) => (
@@ -666,7 +790,7 @@ export const AdminDashboard: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setStatusFilter('ALL')}
-                  className="px-2.5 py-2 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 flex items-center gap-1"
+                  className="px-2.5 py-2 rounded-xl text-xs font-bold text-rose-300 bg-rose-950/40 hover:bg-rose-900/50 border border-rose-800/60 flex items-center gap-1 cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                   <span>फिल्टर हटाएं</span>
@@ -678,8 +802,8 @@ export const AdminDashboard: React.FC = () => {
           {/* List of Problem Cards */}
           <div className="p-4 sm:p-6 space-y-4">
             {filteredProblems.length === 0 ? (
-              <div className="py-16 text-center text-slate-500 space-y-3">
-                <FileText className="w-12 h-12 text-slate-300 mx-auto" />
+              <div className="py-16 text-center text-[#8ea598] space-y-3">
+                <FileText className="w-12 h-12 text-slate-600 mx-auto" />
                 <p className="font-semibold text-sm">इस फिल्टर में कोई समस्या उपलब्ध नहीं है।</p>
                 <button
                   type="button"
@@ -689,7 +813,7 @@ export const AdminDashboard: React.FC = () => {
                     setSearchQuery('');
                     setCategoryFilter('ALL');
                   }}
-                  className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold"
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold cursor-pointer"
                 >
                   सभी समस्याएं देखें
                 </button>
@@ -707,36 +831,36 @@ export const AdminDashboard: React.FC = () => {
                     key={problem.id}
                     className={`rounded-2xl border p-4 sm:p-6 transition-all space-y-4 ${
                       isHandpumpHighlight
-                        ? 'bg-amber-50/40 border-amber-300 shadow-sm'
-                        : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
+                        ? 'bg-[#182b21] border-amber-500/50 shadow-sm'
+                        : 'bg-[#0d1e17] border-[#1e382b] hover:border-emerald-500/40 shadow-xs'
                     }`}
                   >
                     {/* Problem Card Header: ID, Category, Location, Priority */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                       <div className="flex flex-wrap items-center gap-2">
                         {/* Problem ID */}
-                        <span className="font-mono font-black text-sm px-2.5 py-1 rounded-lg bg-slate-900 text-white shadow-xs">
+                        <span className="font-mono font-black text-sm px-2.5 py-1 rounded-lg bg-[#060d0a] text-emerald-400 border border-[#1e382b] shadow-xs">
                           {problem.trackingCode}
                         </span>
 
                         {/* Category */}
-                        <span className="px-2.5 py-0.5 rounded-lg bg-blue-50 text-blue-800 border border-blue-200 font-bold text-xs flex items-center gap-1">
+                        <span className="px-2.5 py-0.5 rounded-lg bg-[#11231b] text-emerald-300 border border-[#1e382b] font-bold text-xs flex items-center gap-1">
                           <span>{problem.categoryHi || problem.category}</span>
-                          <span className="text-[10px] text-blue-500 font-normal">
+                          <span className="text-[10px] text-[#8ea598] font-normal">
                             ({problem.category.replace('_', ' ')})
                           </span>
                         </span>
 
                         {/* Location */}
-                        <span className="inline-flex items-center gap-1 text-xs text-slate-600 font-semibold bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200">
-                          <MapPin className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                        <span className="inline-flex items-center gap-1 text-xs text-slate-300 font-semibold bg-[#11231b] px-2.5 py-0.5 rounded-lg border border-[#1e382b]">
+                          <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                           <span>
                             {problem.district} ({problem.block} Block)
                           </span>
                         </span>
 
                         {/* Priority */}
-                        <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 font-black text-[11px] uppercase border border-rose-200">
+                        <span className="px-2 py-0.5 rounded-md bg-rose-950/60 text-rose-300 font-black text-[11px] uppercase border border-rose-800/60">
                           🚨 {problem.priority} Priority
                         </span>
                       </div>
@@ -751,27 +875,27 @@ export const AdminDashboard: React.FC = () => {
 
                     {/* Title & Description */}
                     <div className="space-y-1">
-                      <h3 className="text-base sm:text-lg font-black text-slate-900 leading-snug">
+                      <h3 className="text-base sm:text-lg font-black text-white leading-snug">
                         {problem.title}
                       </h3>
-                      <p className="text-xs sm:text-sm text-slate-600 line-clamp-2 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-slate-300 line-clamp-2 leading-relaxed">
                         {problem.description}
                       </p>
                     </div>
 
                     {/* Metadata Strip: Upvotes, Submitted Date, AI Similarity Status */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-slate-600 pt-2 border-t border-slate-100">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-slate-400 pt-2 border-t border-[#1e382b]">
                       {/* Upvotes */}
-                      <div className="flex items-center gap-1.5 font-semibold text-purple-900">
-                        <ThumbsUp className="w-4 h-4 text-purple-600 shrink-0" />
+                      <div className="flex items-center gap-1.5 font-semibold text-purple-300">
+                        <ThumbsUp className="w-4 h-4 text-purple-400 shrink-0" />
                         <span>
                           <strong>Upvotes:</strong> {problem.votesCount} Citizens Supported
                         </span>
                       </div>
 
                       {/* Submitted date */}
-                      <div className="flex items-center gap-1.5 text-slate-500">
-                        <Clock className="w-4 h-4 text-slate-400 shrink-0" />
+                      <div className="flex items-center gap-1.5 text-slate-400">
+                        <Clock className="w-4 h-4 text-slate-500 shrink-0" />
                         <span>
                           <strong>Submitted:</strong>{' '}
                           {new Date(problem.reportedAt).toLocaleDateString('en-IN', {
@@ -784,15 +908,15 @@ export const AdminDashboard: React.FC = () => {
 
                       {/* AI Duplicate Status */}
                       <div className="flex items-center gap-1.5">
-                        <Sparkles className="w-4 h-4 text-indigo-600 shrink-0" />
+                        <Sparkles className="w-4 h-4 text-indigo-400 shrink-0" />
                         <span>
                           <strong>AI Similarity:</strong>{' '}
                           {problem.aiAnalysis?.duplicateDetected ? (
-                            <span className="font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded border border-amber-300">
+                            <span className="font-bold text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-700/60">
                               {Math.round((problem.aiAnalysis.duplicateSimilarityScore || 0.87) * 100)}% (Similar Found)
                             </span>
                           ) : (
-                            <span className="font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                            <span className="font-semibold text-emerald-300 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-700/60">
                               Unique / No Duplicate
                             </span>
                           )}
@@ -802,8 +926,8 @@ export const AdminDashboard: React.FC = () => {
 
                     {/* Admin Action Feedback (if any active note) */}
                     {actionNotes[problem.id] && (
-                      <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900 flex items-center gap-2">
-                        <Info className="w-4 h-4 text-blue-600 shrink-0" />
+                      <div className="p-2.5 bg-blue-950/40 border border-blue-800/60 rounded-xl text-xs text-blue-300 flex items-center gap-2">
+                        <Info className="w-4 h-4 text-blue-400 shrink-0" />
                         <span>
                           <strong>प्रशासनिक टिप्पणी:</strong> {actionNotes[problem.id]}
                         </span>
@@ -813,14 +937,14 @@ export const AdminDashboard: React.FC = () => {
                     {/* ========================================================================= */}
                     {/* 4. ADMIN ACTIONS (View Details, Verify, Request More Info, Reject) */}
                     {/* ========================================================================= */}
-                    <div className="flex flex-wrap items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                    <div className="flex flex-wrap items-center justify-end gap-2 pt-2 border-t border-[#1e382b]">
                       {/* Button 1: View Details */}
                       <button
                         type="button"
                         onClick={() => setDetailModalProblem(problem)}
-                        className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold flex items-center gap-1.5 transition-all"
+                        className="px-3.5 py-2 rounded-xl bg-[#11231b] hover:bg-[#162e22] text-slate-200 border border-[#1e382b] text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
                       >
-                        <Eye className="w-3.5 h-3.5 text-slate-600" />
+                        <Eye className="w-3.5 h-3.5 text-slate-400" />
                         <span>View Details (विवरण देखें)</span>
                       </button>
 
@@ -833,9 +957,9 @@ export const AdminDashboard: React.FC = () => {
                             `नागरिक महोदय, कृपया ${problem.villageOrWard} स्थित समस्या का नजदीकी लैंडमार्क व स्थल का स्पष्ट फोटो पुनः साझा करें ताकि ब्लॉक टीम तुरंत पहुंच सके।`
                           );
                         }}
-                        className="px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 text-xs font-bold flex items-center gap-1.5 transition-all"
+                        className="px-3.5 py-2 rounded-xl bg-blue-950/40 hover:bg-blue-900/50 text-blue-300 border border-blue-800/60 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
                       >
-                        <MessageSquare className="w-3.5 h-3.5 text-blue-600" />
+                        <MessageSquare className="w-3.5 h-3.5 text-blue-400" />
                         <span>Request More Information</span>
                       </button>
 
@@ -846,9 +970,9 @@ export const AdminDashboard: React.FC = () => {
                           setRejectProblem(problem);
                           setRejectNotes('समान समस्या पूर्व से पंजीकृत है अथवा विभागीय सीमा से परे है।');
                         }}
-                        className="px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 text-xs font-bold flex items-center gap-1.5 transition-all"
+                        className="px-3.5 py-2 rounded-xl bg-rose-950/40 hover:bg-rose-900/50 text-rose-300 border border-rose-800/60 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
                       >
-                        <X className="w-3.5 h-3.5 text-rose-600" />
+                        <X className="w-3.5 h-3.5 text-rose-400" />
                         <span>Reject</span>
                       </button>
 
@@ -857,13 +981,13 @@ export const AdminDashboard: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleVerifyDirect(problem)}
-                          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black flex items-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all hover:scale-[1.02]"
+                          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black flex items-center gap-1.5 shadow-md shadow-emerald-950/40 transition-all hover:scale-[1.02] cursor-pointer"
                         >
                           <CheckCircle2 className="w-4 h-4 text-emerald-200" />
                           <span>Verify (सत्यापित करें)</span>
                         </button>
                       ) : (
-                        <span className="px-3 py-2 rounded-xl bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center gap-1 border border-emerald-300">
+                        <span className="px-3 py-2 rounded-xl bg-emerald-950/60 text-emerald-300 font-bold text-xs flex items-center gap-1 border border-emerald-700/60">
                           <Check className="w-3.5 h-3.5" />
                           <span>Verified & Open for College Adoption</span>
                         </span>
@@ -879,25 +1003,25 @@ export const AdminDashboard: React.FC = () => {
         {/* ========================================================================= */}
         {/* 5. DISTRICT HEATMAP (Jharkhand District Visualization with Demo Statuses) */}
         {/* ========================================================================= */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+        <div className="bg-[#11231b] rounded-3xl p-6 sm:p-8 border border-[#1e382b] shadow-md space-y-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#1e382b]">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center">
-                  <Activity className="w-4 h-4 text-emerald-700" />
+                <div className="w-8 h-8 rounded-xl bg-[#0d1e17] text-emerald-400 border border-[#1e382b] flex items-center justify-center">
+                  <Activity className="w-4 h-4 text-emerald-400" />
                 </div>
-                <h2 className="text-xl font-black text-slate-900">
+                <h2 className="text-xl font-black text-white">
                   Jharkhand District Status Heatmap
                 </h2>
               </div>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-[#8ea598]">
                 झारखंड के 24 जिलों में जनसमस्या समाधान एवं नवाचार चुनौतियों की लाइव स्थिति
               </p>
             </div>
 
             {/* Explicit Prototype Demo Data Disclaimer */}
-            <div className="px-3.5 py-1.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs font-bold flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+            <div className="px-3.5 py-1.5 rounded-xl bg-amber-950/40 border border-amber-800/60 text-amber-300 text-xs font-bold flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
               <span>
                 * Prototype Demo Data • Do not imply real government data.
               </span>
@@ -905,8 +1029,8 @@ export const AdminDashboard: React.FC = () => {
           </div>
 
           {/* Status Legend */}
-          <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-200">
-            <span className="text-slate-500 font-bold text-[11px] uppercase tracking-wider">
+          <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-300 bg-[#0d1e17] p-3 rounded-2xl border border-[#1e382b]">
+            <span className="text-[#8ea598] font-bold text-[11px] uppercase tracking-wider">
               संकेतक (Status Legend):
             </span>
             <span className="flex items-center gap-1.5">
@@ -931,10 +1055,10 @@ export const AdminDashboard: React.FC = () => {
 
               const statusColor =
                 district.status === 'RESOLVED'
-                  ? 'border-emerald-200 bg-emerald-50/50 hover:bg-emerald-50'
+                  ? 'border-emerald-800/60 bg-emerald-950/25 hover:bg-emerald-950/45'
                   : district.status === 'IN_PROGRESS'
-                  ? 'border-amber-200 bg-amber-50/50 hover:bg-amber-50'
-                  : 'border-rose-200 bg-rose-50/50 hover:bg-rose-50';
+                  ? 'border-amber-800/60 bg-amber-950/25 hover:bg-amber-950/45'
+                  : 'border-rose-800/60 bg-rose-950/25 hover:bg-rose-950/45';
 
               const badgeIcon =
                 district.status === 'RESOLVED'
@@ -948,33 +1072,33 @@ export const AdminDashboard: React.FC = () => {
                   key={district.id}
                   type="button"
                   onClick={() => setSelectedDistrict(district.nameEn.replace(' District', ''))}
-                  className={`p-4 rounded-2xl border text-left transition-all relative ${statusColor} ${
-                    isSelected ? 'ring-2 ring-emerald-600 shadow-md' : 'hover:shadow-xs'
+                  className={`p-4 rounded-2xl border text-left transition-all relative cursor-pointer ${statusColor} ${
+                    isSelected ? 'ring-2 ring-emerald-500 shadow-md' : 'hover:shadow-xs'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <h4 className="font-bold text-slate-900 text-sm">
+                      <h4 className="font-bold text-white text-sm">
                         {district.nameEn}
                       </h4>
-                      <span className="text-[11px] text-slate-500">{district.nameHi}</span>
+                      <span className="text-[11px] text-[#8ea598]">{district.nameHi}</span>
                     </div>
                     <span className="text-base">{badgeIcon}</span>
                   </div>
 
-                  <p className="text-[11px] text-slate-600 mt-2 line-clamp-1 italic">
+                  <p className="text-[11px] text-slate-300 mt-2 line-clamp-1 italic">
                     "{district.featuredIssue}"
                   </p>
 
-                  <div className="flex items-center justify-between text-[11px] text-slate-500 mt-3 pt-2 border-t border-slate-200/60">
+                  <div className="flex items-center justify-between text-[11px] text-[#8ea598] mt-3 pt-2 border-t border-[#1e382b]">
                     <span>
-                      खुली: <strong className="text-rose-700">{district.openCount}</strong>
+                      खुली: <strong className="text-rose-400">{district.openCount}</strong>
                     </span>
                     <span>
-                      प्रगति: <strong className="text-amber-700">{district.inProgressCount}</strong>
+                      प्रगति: <strong className="text-amber-400">{district.inProgressCount}</strong>
                     </span>
                     <span>
-                      सफल: <strong className="text-emerald-700">{district.resolvedCount}</strong>
+                      सफल: <strong className="text-emerald-400">{district.resolvedCount}</strong>
                     </span>
                   </div>
                 </button>
@@ -982,6 +1106,102 @@ export const AdminDashboard: React.FC = () => {
             })}
           </div>
         </div>
+
+        {/* ========================================================================= */}
+        {/* DISTRICT ADMIN SETTINGS PANEL (When Settings tab is active) */}
+        {/* ========================================================================= */}
+        {activeTab === 'settings' && (
+          <div className="bg-[#11231b] rounded-3xl border border-[#1e382b] p-6 sm:p-8 shadow-md space-y-6">
+            <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+              <Settings className="w-4 h-4" />
+              <span>District Administration & Portal Configuration</span>
+            </div>
+
+            <div>
+              <h2 className="text-xl sm:text-2xl font-black text-white">
+                जिला प्रशासनिक सेटिंग्स एवं नोडल अधिकारी विन्यास
+              </h2>
+              <p className="text-xs sm:text-sm text-[#8ea598] mt-1">
+                Configure officer credentials, automated AI verification thresholds, and district alert gateways.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-[#1e382b]">
+              <div className="space-y-4">
+                <TextInput
+                  label="सत्यापन नोडल अधिकारी (Nodal Officer Name)"
+                  value={officerName}
+                  onChange={(e) => setOfficerName(e.target.value)}
+                  placeholder="e.g. Dr. Amit Sinha, IAS"
+                />
+
+                <TextInput
+                  label="पदनाम (Officer Designation)"
+                  value={designation}
+                  onChange={(e) => setDesignation(e.target.value)}
+                  placeholder="e.g. Sub-Divisional Officer (SDO), Khunti"
+                />
+
+                <SelectInput
+                  label="डिफ़ॉल्ट प्रशासनिक विभाग (Default Department)"
+                  value={assignedDept}
+                  onChange={(e) => setAssignedDept(e.target.value)}
+                  options={[
+                    { value: 'Drinking Water & Sanitation Department (DWSD)', label: 'Drinking Water & Sanitation Department (DWSD)' },
+                    { value: 'Jharkhand Renewable Energy Dev Agency (JREDA)', label: 'Jharkhand Renewable Energy Dev Agency (JREDA)' },
+                    { value: 'Rural Development Department (RDD)', label: 'Rural Development Department (RDD)' },
+                    { value: 'School Education & Literacy Department', label: 'School Education & Literacy Department' },
+                    { value: 'Department of Agriculture & Animal Husbandry', label: 'Department of Agriculture & Animal Husbandry' },
+                  ]}
+                />
+              </div>
+
+              <div className="space-y-4">
+                <div className="p-4 bg-[#0d1e17] rounded-2xl border border-[#1e382b] space-y-2">
+                  <span className="text-xs font-bold text-slate-200 block">
+                    AI Auto-Triage Thresholds (एआई छंटाई सीमा)
+                  </span>
+                  <p className="text-xs text-[#8ea598]">
+                    Confidence threshold for automated duplicate matching and high-priority escalation:
+                  </p>
+                  <div className="flex items-center gap-3 pt-2">
+                    <span className="text-xs font-bold text-emerald-300 bg-emerald-950/60 px-2.5 py-1 rounded-lg border border-emerald-800/60">
+                      85% Auto-Flag
+                    </span>
+                    <span className="text-xs font-bold text-blue-300 bg-blue-950/60 px-2.5 py-1 rounded-lg border border-blue-800/60">
+                      Gemini 2.5 Flash
+                    </span>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-[#0d1e17] rounded-2xl border border-[#1e382b] space-y-2">
+                  <span className="text-xs font-bold text-slate-200 block">
+                    Citizen Notification Channel (नागरिक सूचना प्रणाली)
+                  </span>
+                  <div className="flex items-center gap-2 text-xs text-slate-300">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>NIC Jharkhand SMS Gateway & In-App Tracker (Active Demo)</span>
+                  </div>
+                </div>
+
+                <Button
+                  variant="primary"
+                  size="md"
+                  onClick={() =>
+                    addNotification({
+                      title: 'Settings Saved',
+                      message: 'जिला प्रशासन सेटिंग्स सफलतापूर्वक अपडेट की गईं।',
+                      type: 'success',
+                    })
+                  }
+                  className="w-full cursor-pointer"
+                >
+                  ✓ सेटिंग्स सहेजें (Save Configuration)
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ========================================================================= */}
@@ -1039,24 +1259,24 @@ export const AdminDashboard: React.FC = () => {
             </div>
           }
         >
-          <div className="space-y-6 text-xs text-slate-700 max-h-[75vh] overflow-y-auto pr-1">
+          <div className="space-y-6 text-xs text-slate-200 max-h-[75vh] overflow-y-auto pr-1">
             {/* Header info */}
-            <div className="p-4 bg-slate-900 text-white rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="p-4 bg-[#060d0a] border border-[#1e382b] text-white rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div>
-                <span className="text-[10px] font-mono text-amber-300 uppercase tracking-wider block">
+                <span className="text-[10px] font-mono text-amber-400 uppercase tracking-wider block">
                   Problem Dossier ID
                 </span>
-                <span className="text-xl font-mono font-black text-white">
+                <span className="text-xl font-mono font-black text-emerald-400">
                   {detailModalProblem.trackingCode}
                 </span>
-                <p className="text-xs text-slate-300 font-semibold mt-0.5">
+                <p className="text-xs text-slate-200 font-semibold mt-0.5">
                   {detailModalProblem.title}
                 </p>
               </div>
 
               <div className="text-right">
-                <span className="text-[10px] text-slate-400 block">सत्यापन स्थिति:</span>
-                <span className="text-xs font-bold text-amber-300">
+                <span className="text-[10px] text-[#8ea598] block">सत्यापन स्थिति:</span>
+                <span className="text-xs font-bold text-amber-400">
                   {getProblemVerificationStatus(detailModalProblem).label}
                 </span>
               </div>
@@ -1073,21 +1293,21 @@ export const AdminDashboard: React.FC = () => {
                 ↓
                 Open for Adoption
             */}
-            <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
-              <h4 className="font-black text-slate-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
-                <Activity className="w-4 h-4 text-emerald-600" />
+            <div className="p-4 bg-[#0d1e17] border border-[#1e382b] rounded-2xl space-y-3">
+              <h4 className="font-black text-white text-xs uppercase tracking-wider flex items-center gap-1.5">
+                <Activity className="w-4 h-4 text-emerald-400" />
                 <span>Audit Timeline (प्रशासनिक ऑडिट एवं जीवन चक्र टाइमलाइन)</span>
               </h4>
 
               {/* Connected Timeline Progress */}
-              <div className="relative pl-6 space-y-5 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-emerald-300">
+              <div className="relative pl-6 space-y-5 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-emerald-600/50">
                 {/* Node 1: Citizen Submitted */}
                 <div className="relative">
                   <span className="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] font-bold">
                     ✓
                   </span>
-                  <div className="font-bold text-slate-900">1. Citizen Submitted (नागरिक द्वारा दर्ज)</div>
-                  <div className="text-[11px] text-slate-500">
+                  <div className="font-bold text-white">1. Citizen Submitted (नागरिक द्वारा दर्ज)</div>
+                  <div className="text-[11px] text-[#8ea598]">
                     दर्जकर्ता: {detailModalProblem.citizenName} • मोबाइल: {detailModalProblem.citizenPhoneMasked} •{' '}
                     {new Date(detailModalProblem.reportedAt).toLocaleString('en-IN')}
                   </div>
@@ -1098,8 +1318,8 @@ export const AdminDashboard: React.FC = () => {
                   <span className="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] font-bold">
                     ✓
                   </span>
-                  <div className="font-bold text-slate-900">2. AI Processed (एआई वर्गीकरण व प्राथमिकता)</div>
-                  <div className="text-[11px] text-slate-500">
+                  <div className="font-bold text-white">2. AI Processed (एआई वर्गीकरण व प्राथमिकता)</div>
+                  <div className="text-[11px] text-[#8ea598]">
                     श्रेणी: {detailModalProblem.categoryHi} • डुप्लीकेट जांच संपन्न • प्राथमिकता:{' '}
                     {detailModalProblem.priority.toUpperCase()}
                   </div>
@@ -1110,32 +1330,32 @@ export const AdminDashboard: React.FC = () => {
                   <span className="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[9px] font-bold">
                     3
                   </span>
-                  <div className="font-bold text-blue-900">3. Admin Reviewed (जिला प्रशासन समीक्षा)</div>
-                  <div className="text-[11px] text-slate-500">
+                  <div className="font-bold text-blue-300">3. Admin Reviewed (जिला प्रशासन समीक्षा)</div>
+                  <div className="text-[11px] text-[#8ea598]">
                     खूंटी जिला नोडल कार्यालय द्वारा तकनीकी व्यवहार्यता व स्थल जांच समीक्षा सक्रिय है।
                   </div>
                 </div>
 
                 {/* Node 4: Verified */}
                 <div className="relative">
-                  <span className="absolute -left-6 top-0.5 w-4 h-4 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center text-[9px] text-slate-400 font-bold">
+                  <span className="absolute -left-6 top-0.5 w-4 h-4 rounded-full border border-slate-600 bg-[#11231b] flex items-center justify-center text-[9px] text-slate-400 font-bold">
                     4
                   </span>
-                  <div className="font-semibold text-slate-600">4. Verified (प्रशासनिक सत्यापन)</div>
-                  <div className="text-[11px] text-slate-400">
+                  <div className="font-semibold text-slate-300">4. Verified (प्रशासनिक सत्यापन)</div>
+                  <div className="text-[11px] text-slate-500">
                     अधिशासी अभियंता द्वारा औचित्य मुहर व बजट आवंटन अनुशंसा।
                   </div>
                 </div>
 
                 {/* Node 5: Open for Adoption */}
                 <div className="relative">
-                  <span className="absolute -left-6 top-0.5 w-4 h-4 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center text-[9px] text-slate-400 font-bold">
+                  <span className="absolute -left-6 top-0.5 w-4 h-4 rounded-full border border-slate-600 bg-[#11231b] flex items-center justify-center text-[9px] text-slate-400 font-bold">
                     5
                   </span>
-                  <div className="font-semibold text-slate-600">
+                  <div className="font-semibold text-slate-300">
                     5. Open for Adoption (विश्वविद्यालय नवाचार मंच पर सूचीबद्ध)
                   </div>
-                  <div className="text-[11px] text-slate-400">
+                  <div className="text-[11px] text-slate-500">
                     राज्य तकनीकी विश्वविद्यालयों (BIT/IIT/NIT) के छात्र दलों हेतु समाधान प्रस्ताव आमंत्रित।
                   </div>
                 </div>
@@ -1144,23 +1364,23 @@ export const AdminDashboard: React.FC = () => {
 
             {/* Citizen Description & Photo Evidence */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                <span className="text-[11px] font-bold text-slate-500 uppercase">
+              <div className="p-4 bg-[#0d1e17] rounded-2xl border border-[#1e382b] space-y-2">
+                <span className="text-[11px] font-bold text-[#8ea598] uppercase">
                   नागरिक विवरण (Citizen Description):
                 </span>
-                <p className="text-slate-900 font-medium leading-relaxed">
+                <p className="text-white font-medium leading-relaxed">
                   "{detailModalProblem.description}"
                 </p>
                 {detailModalProblem.descriptionHi && (
-                  <p className="text-slate-600 text-[11px] italic">
+                  <p className="text-[#8ea598] text-[11px] italic">
                     "{detailModalProblem.descriptionHi}"
                   </p>
                 )}
               </div>
 
               {/* Photo / Video evidence */}
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                <span className="text-[11px] font-bold text-slate-500 uppercase">
+              <div className="p-4 bg-[#0d1e17] rounded-2xl border border-[#1e382b] space-y-2">
+                <span className="text-[11px] font-bold text-[#8ea598] uppercase">
                   प्रत्यक्ष साक्ष्य (Photo / Video Evidence):
                 </span>
                 {detailModalProblem.evidence && detailModalProblem.evidence.length > 0 ? (
@@ -1168,14 +1388,14 @@ export const AdminDashboard: React.FC = () => {
                     <img
                       src={detailModalProblem.evidence[0].url}
                       alt="Ground Evidence"
-                      className="w-full h-36 object-cover rounded-xl border border-slate-300"
+                      className="w-full h-36 object-cover rounded-xl border border-[#1e382b]"
                     />
-                    <span className="text-[10px] text-slate-500 block">
+                    <span className="text-[10px] text-[#8ea598] block">
                       कैप्शन: {detailModalProblem.evidence[0].caption || 'नागरिक द्वारा प्रस्तुत साक्ष्य'}
                     </span>
                   </div>
                 ) : (
-                  <div className="h-28 bg-slate-200 rounded-xl flex items-center justify-center text-slate-400">
+                  <div className="h-28 bg-[#11231b] rounded-xl flex items-center justify-center text-slate-500 border border-[#1e382b]">
                     कोई साक्ष्य फोटो संलग्न नहीं
                   </div>
                 )}
@@ -1184,60 +1404,60 @@ export const AdminDashboard: React.FC = () => {
 
             {/* Location & AI Findings */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                <span className="text-slate-500 text-[11px] block font-bold">स्थान (Location):</span>
-                <strong className="text-slate-900 block mt-0.5">
+              <div className="p-3 bg-[#0d1e17] rounded-xl border border-[#1e382b]">
+                <span className="text-[#8ea598] text-[11px] block font-bold">स्थान (Location):</span>
+                <strong className="text-white block mt-0.5">
                   {detailModalProblem.villageOrWard}, {detailModalProblem.block}
                 </strong>
-                <span className="text-slate-500 text-[10px] font-mono">
+                <span className="text-slate-400 text-[10px] font-mono">
                   GPS: {detailModalProblem.coordinates.lat.toFixed(4)}, {detailModalProblem.coordinates.lng.toFixed(4)}
                 </span>
               </div>
 
-              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                <span className="text-slate-500 text-[11px] block font-bold">एआई श्रेणी (AI Category):</span>
-                <strong className="text-blue-800 block mt-0.5">
+              <div className="p-3 bg-[#0d1e17] rounded-xl border border-[#1e382b]">
+                <span className="text-[#8ea598] text-[11px] block font-bold">एआई श्रेणी (AI Category):</span>
+                <strong className="text-emerald-300 block mt-0.5">
                   {detailModalProblem.categoryHi}
                 </strong>
-                <span className="text-[10px] text-slate-500">
+                <span className="text-[10px] text-[#8ea598]">
                   कॉन्फिडेंस: {Math.round((detailModalProblem.aiAnalysis?.confidenceScore || 0.94) * 100)}%
                 </span>
               </div>
 
-              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                <span className="text-slate-500 text-[11px] block font-bold">एआई प्राथमिकता (AI Priority):</span>
-                <strong className="text-rose-700 uppercase block mt-0.5">
+              <div className="p-3 bg-[#0d1e17] rounded-xl border border-[#1e382b]">
+                <span className="text-[#8ea598] text-[11px] block font-bold">एआई प्राथमिकता (AI Priority):</span>
+                <strong className="text-rose-400 uppercase block mt-0.5">
                   🚨 {detailModalProblem.priority} Priority
                 </strong>
-                <span className="text-[10px] text-slate-500">
+                <span className="text-[10px] text-[#8ea598]">
                   {detailModalProblem.aiAnalysis?.urgencyReasoning || 'Drinking water urgency'}
                 </span>
               </div>
             </div>
 
             {/* Similar Problems & Upvotes */}
-            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 space-y-2">
+            <div className="p-4 rounded-2xl bg-amber-950/40 border border-amber-800/60 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-amber-900 text-xs flex items-center gap-1.5">
-                  <AlertTriangle className="w-4 h-4 text-amber-600" />
+                <span className="font-bold text-amber-300 text-xs flex items-center gap-1.5">
+                  <AlertTriangle className="w-4 h-4 text-amber-400" />
                   <span>समान शिकायतें (Similar Problems Detected):</span>
                 </span>
-                <span className="text-amber-800 font-mono font-bold text-xs">
+                <span className="text-amber-400 font-mono font-bold text-xs">
                   87% Similarity
                 </span>
               </div>
-              <p className="text-xs text-amber-800">
+              <p className="text-xs text-amber-200/90">
                 एआई ने 0.4 किमी के दायरे में पूर्व दर्ज <strong>"Khunti Village Handpump Not Working"</strong> (कोड: JH-KHT-2026-0388) के साथ 87% समानता पहचानी है।
               </p>
-              <div className="text-[11px] text-purple-900 font-bold flex items-center gap-1 pt-1">
-                <ThumbsUp className="w-3.5 h-3.5 text-purple-600" />
+              <div className="text-[11px] text-purple-300 font-bold flex items-center gap-1 pt-1">
+                <ThumbsUp className="w-3.5 h-3.5 text-purple-400" />
                 <span>समर्थक नागरिक (Upvotes): {detailModalProblem.votesCount} नागरिक सहमत</span>
               </div>
             </div>
 
             {/* Verification History */}
-            <div className="p-3 bg-slate-100 rounded-xl space-y-1 text-[11px] text-slate-600">
-              <span className="font-bold text-slate-800 block">सत्यापन इतिहास (Verification History):</span>
+            <div className="p-3 bg-[#060d0a] border border-[#1e382b] rounded-xl space-y-1 text-[11px] text-slate-300">
+              <span className="font-bold text-emerald-400 block">सत्यापन इतिहास (Verification History):</span>
               <div>• {new Date(detailModalProblem.reportedAt).toLocaleDateString()}: नागरिक शिकायत पोर्टल पर पंजीकृत।</div>
               <div>• {new Date(detailModalProblem.reportedAt).toLocaleDateString()}: एआई स्वतः छंटाई एवं डुप्लीकेट मिलान संपन्न।</div>
               <div>• वर्तमान: जिला प्रशासन खूंटी द्वारा तकनीकी सत्यापन कतार में।</div>
@@ -1267,9 +1487,9 @@ export const AdminDashboard: React.FC = () => {
           }
         >
           <form onSubmit={handleConfirmMoreInfo} className="space-y-4 text-xs">
-            <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl">
-              <strong className="text-blue-900 block font-bold">{moreInfoProblem.title}</strong>
-              <span className="text-slate-500 text-[11px]">
+            <div className="p-3 bg-blue-950/40 border border-blue-800/60 rounded-xl">
+              <strong className="text-blue-300 block font-bold">{moreInfoProblem.title}</strong>
+              <span className="text-[#8ea598] text-[11px]">
                 नागरिक: {moreInfoProblem.citizenName} ({moreInfoProblem.citizenPhoneMasked})
               </span>
             </div>
@@ -1282,7 +1502,7 @@ export const AdminDashboard: React.FC = () => {
               required
             />
 
-            <div className="text-[11px] text-slate-500">
+            <div className="text-[11px] text-[#8ea598]">
               💡 यह संदेश नागरिक के पंजीकृत मोबाइल नंबर पर एसएमएस व पोर्टल सूचना के रूप में भेजा जाएगा।
             </div>
           </form>
@@ -1310,9 +1530,9 @@ export const AdminDashboard: React.FC = () => {
           }
         >
           <form onSubmit={handleConfirmReject} className="space-y-4 text-xs">
-            <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl">
-              <strong className="text-rose-900 block font-bold">{rejectProblem.title}</strong>
-              <span className="text-slate-500 text-[11px] font-mono">
+            <div className="p-3 bg-rose-950/40 border border-rose-800/60 rounded-xl">
+              <strong className="text-rose-300 block font-bold">{rejectProblem.title}</strong>
+              <span className="text-[#8ea598] text-[11px] font-mono">
                 {rejectProblem.trackingCode} • {rejectProblem.villageOrWard}
               </span>
             </div>

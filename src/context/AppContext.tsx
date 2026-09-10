@@ -3,12 +3,23 @@ import { Problem, UserRole, NotificationItem, PlatformStage, Milestone } from '.
 import { INITIAL_PROBLEMS } from '../data/jharkhandData';
 import { Language, getSavedLanguage, saveLanguage, translate } from '../i18n';
 
+export interface AuthSession {
+  isLoggedIn: boolean;
+  role: UserRole;
+  name: string;
+  org?: string;
+  id?: string;
+}
+
 interface AppContextType {
   problems: Problem[];
   currentRole: UserRole;
   setCurrentRole: (role: UserRole) => void;
   userRole: UserRole;
   setUserRole: (role: UserRole) => void;
+  authSession: AuthSession;
+  login: (role: UserRole, userDetails?: Partial<AuthSession>) => void;
+  logout: () => void;
   language: Language;
   setLanguage: (lang: Language) => void;
   toggleLanguage: () => void;
@@ -58,7 +69,109 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return INITIAL_PROBLEMS;
   });
 
-  const [currentRole, setCurrentRole] = useState<UserRole>('citizen');
+  const [currentRole, setCurrentRoleState] = useState<UserRole>(() => {
+    try {
+      const savedRole = localStorage.getItem('samadhan_current_role') as UserRole;
+      if (savedRole && ['citizen', 'student', 'csr', 'admin'].includes(savedRole)) {
+        return savedRole;
+      }
+    } catch {
+      // ignore
+    }
+    return 'citizen';
+  });
+
+  const [authSession, setAuthSession] = useState<AuthSession>(() => {
+    try {
+      const saved = localStorage.getItem('samadhan_auth_session');
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    } catch {
+      // ignore
+    }
+    return {
+      isLoggedIn: false,
+      role: 'citizen',
+      name: 'नागरिक (Citizen)',
+      org: 'झारखंड नागरिक पोर्टल',
+      id: 'CITIZEN-GUEST',
+    };
+  });
+
+  const setCurrentRole = (role: UserRole) => {
+    setCurrentRoleState(role);
+    try {
+      localStorage.setItem('samadhan_current_role', role);
+    } catch {
+      // ignore
+    }
+  };
+
+  const login = (role: UserRole, userDetails?: Partial<AuthSession>) => {
+    let defaultDetails: Partial<AuthSession> = {};
+    if (role === 'student') {
+      defaultDetails = {
+        name: 'Priya Murmu (Team Lead)',
+        org: 'BIT Mesra (Team JalShakti)',
+        id: 'BITM-2023-ENV-04',
+      };
+    } else if (role === 'csr') {
+      defaultDetails = {
+        name: 'Sunita Soren (CSR Lead)',
+        org: 'Tata Steel Foundation CSR',
+        id: 'TSF-CSR-JH09',
+      };
+    } else if (role === 'admin') {
+      defaultDetails = {
+        name: 'Rahul Prasad, IAS (ADC Triage)',
+        org: 'District Administration, Ranchi',
+        id: 'JH-ADM-RNC-01',
+      };
+    } else {
+      defaultDetails = {
+        name: 'नागरिक (Citizen)',
+        org: 'झारखंड नागरिक पोर्टल',
+        id: 'CITIZEN-GUEST',
+      };
+    }
+
+    const session: AuthSession = {
+      isLoggedIn: role !== 'citizen',
+      role,
+      name: userDetails?.name || defaultDetails.name || 'User',
+      org: userDetails?.org || defaultDetails.org,
+      id: userDetails?.id || defaultDetails.id,
+    };
+
+    setAuthSession(session);
+    setCurrentRole(role);
+    try {
+      localStorage.setItem('samadhan_auth_session', JSON.stringify(session));
+      localStorage.setItem('samadhan_current_role', role);
+    } catch {
+      // ignore
+    }
+  };
+
+  const logout = () => {
+    const session: AuthSession = {
+      isLoggedIn: false,
+      role: 'citizen',
+      name: 'नागरिक (Citizen)',
+      org: 'झारखंड नागरिक पोर्टल',
+      id: 'CITIZEN-GUEST',
+    };
+    setAuthSession(session);
+    setCurrentRole('citizen');
+    try {
+      localStorage.setItem('samadhan_auth_session', JSON.stringify(session));
+      localStorage.setItem('samadhan_current_role', 'citizen');
+    } catch {
+      // ignore
+    }
+  };
+
   // Persistent bilingual state defaulting to Hindi ('hi')
   const [language, setLanguageState] = useState<Language>(getSavedLanguage);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -396,6 +509,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setCurrentRole,
         userRole: currentRole,
         setUserRole: setCurrentRole,
+        authSession,
+        login,
+        logout,
         language,
         setLanguage,
         toggleLanguage,

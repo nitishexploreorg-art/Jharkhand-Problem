@@ -1140,8 +1140,8 @@ export const SocialAudit: React.FC = () => {
         </div>
 
         {/* Records Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
+        <div className="w-full max-w-full min-w-0 overflow-x-auto">
+          <table className="w-full text-left text-xs border-collapse min-w-[700px]">
             <thead>
               <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
                 <th className="py-3 px-4">Problem ID</th>

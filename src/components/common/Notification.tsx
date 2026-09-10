@@ -21,20 +21,20 @@ export const AlertBox: React.FC<AlertBoxProps> = ({
 }) => {
   const configs = {
     info: {
-      bg: 'bg-blue-50 border-blue-200 text-blue-900',
-      icon: <Info className="w-5 h-5 text-blue-600 shrink-0" />,
+      bg: 'bg-blue-950/70 border-blue-800/60 text-blue-200',
+      icon: <Info className="w-5 h-5 text-blue-400 shrink-0" />,
     },
     success: {
-      bg: 'bg-emerald-50 border-emerald-200 text-emerald-900',
-      icon: <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />,
+      bg: 'bg-emerald-950/70 border-emerald-800/60 text-emerald-200',
+      icon: <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />,
     },
     warning: {
-      bg: 'bg-amber-50 border-amber-200 text-amber-900',
-      icon: <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0" />,
+      bg: 'bg-amber-950/70 border-amber-800/60 text-amber-200',
+      icon: <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />,
     },
     alert: {
-      bg: 'bg-rose-50 border-rose-200 text-rose-900',
-      icon: <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />,
+      bg: 'bg-rose-950/70 border-rose-800/60 text-rose-200',
+      icon: <AlertCircle className="w-5 h-5 text-rose-400 shrink-0" />,
     },
   };
 
@@ -45,17 +45,17 @@ export const AlertBox: React.FC<AlertBoxProps> = ({
       {c.icon}
       <div className="flex-1">
         {(title || titleHi) && (
-          <div className="font-bold mb-0.5">
-            {titleHi && <span className="mr-1">{titleHi}</span>}
+          <div className="font-bold mb-0.5 text-white">
+            {titleHi && <span className="mr-1 text-emerald-300">{titleHi}</span>}
             {title && <span>{title}</span>}
           </div>
         )}
-        <div className="text-xs sm:text-sm leading-relaxed">{children}</div>
+        <div className="text-xs sm:text-sm leading-relaxed opacity-95">{children}</div>
       </div>
       {onClose && (
         <button
           onClick={onClose}
-          className="p-1 hover:bg-black/5 rounded-md text-slate-500 hover:text-slate-800 transition-colors"
+          className="p-1 hover:bg-white/10 rounded-md text-slate-400 hover:text-white transition-colors cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
@@ -80,19 +80,19 @@ export const NotificationToastStack: React.FC<NotificationToastProps> = ({
       {notifications.slice(0, 3).map((notif) => (
         <div
           key={notif.id}
-          className="pointer-events-auto bg-slate-900 text-white p-3.5 rounded-xl shadow-xl border border-slate-700 flex items-start gap-3 text-xs animate-in slide-in-from-bottom-2 duration-200"
+          className="pointer-events-auto bg-[#0f2119] text-white p-3.5 rounded-xl shadow-2xl border border-[#203f31] flex items-start gap-3 text-xs animate-in slide-in-from-bottom-2 duration-200"
         >
-          <div className="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg shrink-0">
+          <div className="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg shrink-0 border border-emerald-500/30">
             <Bell className="w-4 h-4" />
           </div>
           <div className="flex-1">
-            <h5 className="font-bold text-slate-100">{notif.title}</h5>
-            <p className="text-slate-300 text-[11px] mt-0.5 leading-snug">{notif.message}</p>
-            <span className="text-[10px] text-slate-400 mt-1 block">{notif.timestamp}</span>
+            <h5 className="font-bold text-white">{notif.title}</h5>
+            <p className="text-[#9db3a6] text-[11px] mt-0.5 leading-snug">{notif.message}</p>
+            <span className="text-[10px] text-[#6e8a7c] mt-1 block">{notif.timestamp}</span>
           </div>
           <button
             onClick={() => onDismiss(notif.id)}
-            className="text-slate-400 hover:text-white p-1"
+            className="text-[#8ea598] hover:text-white p-1 cursor-pointer"
           >
             <X className="w-3.5 h-3.5" />
           </button>

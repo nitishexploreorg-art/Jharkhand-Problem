@@ -368,10 +368,10 @@ export const TrackProblem: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* 1. TRACK PROBLEM PAGE HEADER & SEARCH INPUT */}
-      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-teal-950 text-white rounded-3xl p-6 sm:p-10 shadow-sm border-b-4 border-teal-500 space-y-6">
+      <div className="bg-gradient-to-r from-[#060d0a] via-[#0e2419] to-[#081710] text-white rounded-3xl p-6 sm:p-10 shadow-2xl border border-[#1e382b] border-b-4 border-b-emerald-600 space-y-6">
         <div className="max-w-3xl space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-900/80 border border-teal-500/40 text-teal-300 text-xs font-bold uppercase tracking-wider">
-            <Search className="w-3.5 h-3.5 text-teal-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+            <Search className="w-3.5 h-3.5 text-emerald-400" />
             <span>Citizen Tracking & Real-Time Alerts</span>
           </div>
 
@@ -379,28 +379,28 @@ export const TrackProblem: React.FC = () => {
             Track Problem & Citizen Notifications
           </h1>
 
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#a5b9ad] leading-relaxed">
             Enter your Problem ID / Ticket ID to view verified lifecycle progress, adoption milestones by collegiate engineering teams, and real-time citizen notification alerts.
           </p>
         </div>
 
         {/* Search Input Box */}
         <form onSubmit={handleSearch} className="space-y-3">
-          <label className="block text-xs font-bold uppercase tracking-wider text-teal-300">
+          <label className="block text-xs font-bold uppercase tracking-wider text-emerald-400">
             Problem ID / Ticket ID (समस्या संख्या / टिकट आईडी)
           </label>
 
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <Search className="w-5 h-5 text-teal-400" />
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8ea598]">
+                <Search className="w-5 h-5 text-emerald-400" />
               </div>
               <input
                 type="text"
                 value={queryCode}
                 onChange={(e) => setQueryCode(e.target.value)}
                 placeholder="Problem ID / Ticket ID (Example: JH-1042)"
-                className="w-full rounded-2xl border border-slate-700 bg-slate-800/90 text-white pl-11 pr-4 py-3.5 text-sm sm:text-base font-mono font-bold placeholder:text-slate-500 placeholder:font-sans focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                className="w-full rounded-2xl border border-[#1e382b] bg-[#0d1e17] text-white pl-11 pr-4 py-3.5 text-sm sm:text-base font-mono font-bold placeholder:text-[#5f7a6c] placeholder:font-sans focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
             </div>
 
@@ -408,7 +408,7 @@ export const TrackProblem: React.FC = () => {
               variant="primary"
               size="lg"
               type="submit"
-              className="bg-teal-600 hover:bg-teal-500 text-white font-bold px-8 shadow-xs"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-8 shadow-md cursor-pointer"
               icon={<Search className="w-4 h-4" />}
             >
               Track Status (स्थिति देखें)
@@ -416,15 +416,15 @@ export const TrackProblem: React.FC = () => {
           </div>
 
           {/* Example Hint Chips */}
-          <div className="flex items-center gap-2 text-xs text-slate-400 flex-wrap pt-1">
+          <div className="flex items-center gap-2 text-xs text-[#8ea598] flex-wrap pt-1">
             <span className="text-slate-300 font-semibold">Example / डेमो टिकट आईडी:</span>
             <button
               type="button"
               onClick={() => handleQuickSelect('JH-1042')}
-              className={`font-mono px-3 py-1 rounded-xl border transition-all ${
+              className={`font-mono px-3 py-1 rounded-xl border transition-all cursor-pointer ${
                 activeTrackingCode === 'JH-1042'
-                  ? 'bg-teal-600 text-white border-teal-500 font-bold shadow-xs'
-                  : 'bg-slate-800 hover:bg-slate-700 text-teal-300 border-slate-700'
+                  ? 'bg-emerald-600 text-white border-emerald-500 font-bold shadow-md'
+                  : 'bg-[#11231b] hover:bg-[#183327] text-emerald-300 border-[#1e382b]'
               }`}
             >
               JH-1042 (Featured Example)
@@ -432,10 +432,10 @@ export const TrackProblem: React.FC = () => {
             <button
               type="button"
               onClick={() => handleQuickSelect('JH-RNC-2026-0814')}
-              className={`font-mono px-2.5 py-1 rounded-xl border transition-all ${
+              className={`font-mono px-2.5 py-1 rounded-xl border transition-all cursor-pointer ${
                 activeTrackingCode === 'JH-RNC-2026-0814'
-                  ? 'bg-teal-600 text-white border-teal-500 font-bold'
-                  : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
+                  ? 'bg-emerald-600 text-white border-emerald-500 font-bold'
+                  : 'bg-[#11231b] hover:bg-[#183327] text-[#a5b9ad] border-[#1e382b]'
               }`}
             >
               JH-RNC-2026-0814
@@ -443,10 +443,10 @@ export const TrackProblem: React.FC = () => {
             <button
               type="button"
               onClick={() => handleQuickSelect('JH-BKR-2026-0492')}
-              className={`font-mono px-2.5 py-1 rounded-xl border transition-all ${
+              className={`font-mono px-2.5 py-1 rounded-xl border transition-all cursor-pointer ${
                 activeTrackingCode === 'JH-BKR-2026-0492'
-                  ? 'bg-teal-600 text-white border-teal-500 font-bold'
-                  : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
+                  ? 'bg-emerald-600 text-white border-emerald-500 font-bold'
+                  : 'bg-[#11231b] hover:bg-[#183327] text-[#a5b9ad] border-[#1e382b]'
               }`}
             >
               JH-BKR-2026-0492
@@ -455,68 +455,68 @@ export const TrackProblem: React.FC = () => {
         </form>
 
         {/* Privacy Assurance Bar */}
-        <div className="p-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 flex items-center justify-between gap-3 text-xs text-slate-300">
+        <div className="p-3 rounded-2xl bg-[#0a1811] border border-[#1e382b] flex items-center justify-between gap-3 text-xs text-[#a5b9ad]">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
             <span>
               Citizen privacy protected: Personal phone numbers are masked on public displays.
             </span>
           </div>
-          <span className="hidden sm:inline-block font-mono text-[11px] text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">
+          <span className="hidden sm:inline-block font-mono text-[11px] text-emerald-300 bg-emerald-950/80 px-2.5 py-0.5 rounded border border-emerald-800">
             End-to-End Encrypted Notifications
           </span>
         </div>
       </div>
 
       {/* 2. PROBLEM SUMMARY CARD */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6">
-        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 pb-6 border-b border-slate-100">
+      <div className="bg-[#11231b] rounded-3xl border border-[#1e382b] p-6 sm:p-8 shadow-xl space-y-6">
+        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 pb-6 border-b border-[#1e382b]">
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="font-mono text-sm font-black bg-slate-900 text-amber-300 px-3.5 py-1 rounded-xl shadow-2xs">
+              <span className="font-mono text-sm font-black bg-[#060d0a] text-amber-400 border border-amber-500/30 px-3.5 py-1 rounded-xl shadow-md">
                 Problem ID: {activeTrackingCode}
               </span>
-              <span className="text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 px-3 py-1 rounded-full">
+              <span className="text-xs font-bold bg-[#0e2419] text-emerald-300 border border-emerald-600/40 px-3 py-1 rounded-full">
                 Water Supply & Sanitation
               </span>
-              <span className="text-xs font-bold bg-slate-100 text-slate-800 border border-slate-200 px-3 py-1 rounded-full flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-rose-600" />
+              <span className="text-xs font-bold bg-[#0d1e17] text-[#c3d5cb] border border-[#1e382b] px-3 py-1 rounded-full flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-rose-400" />
                 Khunti District (Rural)
               </span>
               {/* Requested exact status display */}
               <span
                 className={`text-xs font-black px-3 py-1 rounded-full flex items-center gap-1.5 ${
                   citizenFeedbackState === 'resolved'
-                    ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                    ? 'bg-emerald-950/90 text-emerald-300 border border-emerald-700/60'
                     : citizenFeedbackState === 'reopened'
-                    ? 'bg-rose-100 text-rose-900 border border-rose-300'
-                    : 'bg-amber-50 text-amber-800 border border-amber-300'
+                    ? 'bg-rose-950/90 text-rose-300 border border-rose-700/60'
+                    : 'bg-amber-950/90 text-amber-300 border border-amber-600/50'
                 }`}
               >
                 {citizenFeedbackState === 'resolved' ? (
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 ) : citizenFeedbackState === 'reopened' ? (
-                  <AlertCircle className="w-3.5 h-3.5 text-rose-700" />
+                  <AlertCircle className="w-3.5 h-3.5 text-rose-400" />
                 ) : (
-                  <RefreshCw className="w-3 h-3 text-amber-600 animate-spin" />
+                  <RefreshCw className="w-3 h-3 text-amber-400 animate-spin" />
                 )}
                 Status: {currentProblemStatus}
               </span>
             </div>
 
             <div>
-              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+              <div className="text-xs font-bold text-amber-400 uppercase tracking-wider">
                 Problem:
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
+              <h2 className="text-2xl sm:text-3xl font-black text-white">
                 {problemTitle}
               </h2>
-              <div className="text-xs text-slate-500 font-medium mt-1">
+              <div className="text-xs text-[#8ea598] font-medium mt-1">
                 गांव में चापाकल खराब — Hesal Tola, Khunti (Near Anganwadi Handpump)
               </div>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+            <p className="text-xs sm:text-sm text-[#a5b9ad] leading-relaxed max-w-3xl">
               Community handpump cylinder broken down and yielding contaminated groundwater with high dissolved iron. Adopted by student innovators for solar-powered automated biofiltration and flow-sensor telemetry.
             </p>
 
@@ -524,16 +524,16 @@ export const TrackProblem: React.FC = () => {
             <div
               className={`p-4 rounded-2xl border transition-all ${
                 citizenFeedbackState === 'resolved'
-                  ? 'bg-emerald-50 border-emerald-300 text-emerald-950'
+                  ? 'bg-[#0b2417] border-emerald-600/60 text-emerald-200'
                   : citizenFeedbackState === 'reopened'
-                  ? 'bg-rose-50 border-rose-300 text-rose-950'
-                  : 'bg-teal-50 border-teal-200 text-teal-950'
+                  ? 'bg-[#291217] border-rose-700/60 text-rose-200'
+                  : 'bg-[#0d221a] border-emerald-500/40 text-[#d1e0d7]'
               }`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-xs uppercase tracking-wider">
+                    <span className="font-bold text-xs uppercase tracking-wider text-amber-300">
                       {citizenFeedbackState === 'resolved'
                         ? '✅ Citizen Verified & Closed'
                         : citizenFeedbackState === 'reopened'
@@ -546,7 +546,7 @@ export const TrackProblem: React.FC = () => {
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-slate-700 leading-relaxed">
+                  <p className="text-xs text-[#a5b9ad] leading-relaxed">
                     {citizenFeedbackState === 'resolved'
                       ? 'आपने प्रमाणित किया है कि चापाकल से स्वच्छ जल मिल रहा है। यह शिकायत अब "Resolved" है और सार्वजनिक सामाजिक ऑडिट लेज़र पर दर्ज है।'
                       : citizenFeedbackState === 'reopened'
@@ -562,7 +562,7 @@ export const TrackProblem: React.FC = () => {
                         variant="primary"
                         size="sm"
                         onClick={() => handleCitizenFeedback('resolved')}
-                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs"
+                        className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs"
                         icon={<CheckCircle2 className="w-3.5 h-3.5" />}
                       >
                         👍 Haan (Resolve Issue)
@@ -571,7 +571,7 @@ export const TrackProblem: React.FC = () => {
                         variant="outline"
                         size="sm"
                         onClick={() => handleCitizenFeedback('reopened')}
-                        className="bg-white border-rose-300 text-rose-700 hover:bg-rose-50 font-bold text-xs"
+                        className="bg-rose-950/80 border-rose-700 text-rose-300 hover:bg-rose-900/60 font-bold text-xs"
                         icon={<AlertCircle className="w-3.5 h-3.5" />}
                       >
                         ⚠️ Nahi (Reopen Issue)
@@ -584,7 +584,7 @@ export const TrackProblem: React.FC = () => {
                           <Button
                             variant="primary"
                             size="sm"
-                            className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs"
+                            className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs"
                             icon={<ExternalLink className="w-3.5 h-3.5" />}
                           >
                             View on Social Audit
@@ -595,7 +595,7 @@ export const TrackProblem: React.FC = () => {
                           <Button
                             variant="primary"
                             size="sm"
-                            className="bg-rose-700 hover:bg-rose-800 text-white font-bold text-xs"
+                            className="bg-rose-700 hover:bg-rose-600 text-white font-bold text-xs"
                             icon={<ExternalLink className="w-3.5 h-3.5" />}
                           >
                             Inspect Ground Telemetry
@@ -607,7 +607,7 @@ export const TrackProblem: React.FC = () => {
                         variant="outline"
                         size="sm"
                         onClick={handleResetFeedback}
-                        className="text-xs text-slate-600 bg-white"
+                        className="text-xs text-[#8ea598] bg-[#0d1e17] border-[#1e382b] hover:text-white"
                         icon={<RotateCcw className="w-3 h-3" />}
                       >
                         Reset Demo State
@@ -620,47 +620,47 @@ export const TrackProblem: React.FC = () => {
           </div>
 
           {/* Quick Stats Dossier */}
-          <div className="lg:w-80 bg-slate-50 border border-slate-200 rounded-2xl p-4.5 space-y-3 shrink-0 text-xs">
-            <div className="font-bold text-slate-800 uppercase tracking-wider flex items-center justify-between pb-2 border-b border-slate-200">
+          <div className="lg:w-80 bg-[#0d1e17] border border-[#1e382b] rounded-2xl p-4.5 space-y-3 shrink-0 text-xs shadow-lg">
+            <div className="font-bold text-white uppercase tracking-wider flex items-center justify-between pb-2 border-b border-[#1e382b]">
               <span>Solution Squad</span>
-              <span className="text-teal-800 bg-teal-100 px-2 py-0.5 rounded text-[10px] font-bold">
+              <span className="text-emerald-300 bg-emerald-950 border border-emerald-700/60 px-2 py-0.5 rounded text-[10px] font-bold">
                 Active Capstone
               </span>
             </div>
 
-            <div className="space-y-2 text-slate-600">
+            <div className="space-y-2 text-[#a5b9ad]">
               <div className="flex items-start justify-between gap-2">
-                <span className="text-slate-500">Adopted By:</span>
-                <strong className="text-slate-900 font-bold text-right">
+                <span className="text-[#8ea598]">Adopted By:</span>
+                <strong className="text-white font-bold text-right">
                   Tech Titans
                 </strong>
               </div>
               <div className="flex items-start justify-between gap-2">
-                <span className="text-slate-500">College:</span>
-                <strong className="text-slate-900 text-right">
+                <span className="text-[#8ea598]">College:</span>
+                <strong className="text-white text-right">
                   R.D. Engineering College
                 </strong>
               </div>
               <div className="flex items-start justify-between gap-2">
-                <span className="text-slate-500">CSR Sponsor:</span>
-                <strong className="text-purple-900 font-bold text-right">
+                <span className="text-[#8ea598]">CSR Sponsor:</span>
+                <strong className="text-purple-300 font-bold text-right">
                   Tata Steel Foundation (₹60,000)
                 </strong>
               </div>
               <div className="flex items-start justify-between gap-2">
-                <span className="text-slate-500">Beneficiary Citizens:</span>
-                <strong className="text-emerald-700 font-bold text-right">
+                <span className="text-[#8ea598]">Beneficiary Citizens:</span>
+                <strong className="text-emerald-400 font-bold text-right">
                   127 Residents
                 </strong>
               </div>
             </div>
 
-            <div className="pt-2 border-t border-slate-200 flex gap-2">
+            <div className="pt-2 border-t border-[#1e382b] flex gap-2">
               <Link to="/ground-deployment" className="flex-1">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full text-[11px] font-bold text-teal-800 bg-white"
+                  className="w-full text-[11px] font-bold text-emerald-300 bg-[#11231b] border-[#1e382b] hover:bg-[#183327]"
                   icon={<ExternalLink className="w-3 h-3" />}
                 >
                   Deployment Proofs
@@ -670,7 +670,7 @@ export const TrackProblem: React.FC = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full text-[11px] font-bold text-slate-700 bg-white"
+                  className="w-full text-[11px] font-bold text-[#c3d5cb] bg-[#11231b] border-[#1e382b] hover:bg-[#183327]"
                 >
                   Social Audit
                 </Button>
@@ -681,18 +681,18 @@ export const TrackProblem: React.FC = () => {
 
         {/* 3. TIMELINE (EXACT SPECIFICATION) */}
         <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#1e382b] pb-3">
             <div>
-              <div className="text-xs font-bold text-teal-800 uppercase tracking-wider flex items-center gap-1.5">
-                <Clock className="w-4 h-4 text-teal-600" />
+              <div className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                <Clock className="w-4 h-4 text-emerald-400" />
                 <span>Lifecycle Progress</span>
               </div>
-              <h3 className="text-xl font-black text-slate-900">
+              <h3 className="text-xl font-black text-white">
                 TIMELINE
               </h3>
             </div>
-            <div className="text-xs text-slate-500">
-              Current Stage: <strong className="text-amber-700">Prototype Development (5/7)</strong>
+            <div className="text-xs text-[#8ea598]">
+              Current Stage: <strong className="text-amber-400">Prototype Development (5/7)</strong>
             </div>
           </div>
 
@@ -708,21 +708,21 @@ export const TrackProblem: React.FC = () => {
                   key={step.id}
                   className={`rounded-2xl border transition-all p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
                     isCurrent
-                      ? 'bg-amber-50/70 border-amber-300 ring-2 ring-amber-400/20 shadow-xs'
+                      ? 'bg-[#152e22] border-amber-500/50 ring-2 ring-amber-500/30 shadow-lg'
                       : isCompleted
-                      ? 'bg-emerald-50/40 border-emerald-200'
-                      : 'bg-slate-50/60 border-slate-200 opacity-75'
+                      ? 'bg-[#0d1e17] border-[#1e382b]'
+                      : 'bg-[#0a1811]/60 border-[#14261d] opacity-75'
                   }`}
                 >
                   <div className="flex items-start sm:items-center gap-3.5">
                     {/* Status Symbol Icon */}
                     <div
-                      className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-base shrink-0 shadow-2xs ${
+                      className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-base shrink-0 shadow-md ${
                         isCompleted
                           ? 'bg-emerald-600 text-white'
                           : isCurrent
-                          ? 'bg-amber-500 text-white ring-4 ring-amber-200 animate-pulse'
-                          : 'bg-slate-200 text-slate-500 border border-slate-300'
+                          ? 'bg-amber-500 text-white ring-4 ring-amber-500/30 animate-pulse'
+                          : 'bg-[#172c21] text-[#8ea598] border border-[#1e382b]'
                       }`}
                     >
                       {step.symbol === '✓' ? (
@@ -736,53 +736,53 @@ export const TrackProblem: React.FC = () => {
 
                     <div className="space-y-0.5">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-xs font-mono font-bold text-slate-400">
+                        <span className="text-xs font-mono font-bold text-[#8ea598]">
                           0{idx + 1}.
                         </span>
                         <h4
                           className={`text-base font-black ${
                             isCurrent
-                              ? 'text-amber-950'
+                              ? 'text-amber-300'
                               : isCompleted
-                              ? 'text-slate-900'
-                              : 'text-slate-600'
+                              ? 'text-white'
+                              : 'text-[#8ea598]'
                           }`}
                         >
                           {step.title}
                         </h4>
-                        <span className="text-xs text-slate-500 font-medium">
+                        <span className="text-xs text-[#8ea598] font-medium">
                           ({step.titleHi})
                         </span>
 
                         {isCurrent && (
-                          <span className="text-[11px] font-black uppercase tracking-wider bg-amber-600 text-white px-2.5 py-0.5 rounded-full shadow-2xs">
+                          <span className="text-[11px] font-black uppercase tracking-wider bg-amber-500 text-slate-950 px-2.5 py-0.5 rounded-full shadow-sm">
                             Active Stage (प्रगति में)
                           </span>
                         )}
                         {isCompleted && (
-                          <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
+                          <span className="text-[11px] font-bold text-emerald-300 bg-emerald-950 border border-emerald-700/60 px-2 py-0.5 rounded-full">
                             Verified
                           </span>
                         )}
                         {isUpcoming && (
-                          <span className="text-[11px] font-medium text-slate-500 bg-slate-200/70 px-2 py-0.5 rounded-full">
+                          <span className="text-[11px] font-medium text-[#8ea598] bg-[#0d1e17] border border-[#1e382b] px-2 py-0.5 rounded-full">
                             Upcoming
                           </span>
                         )}
                       </div>
 
-                      <p className="text-xs text-slate-600 leading-relaxed max-w-xl">
+                      <p className="text-xs text-[#a5b9ad] leading-relaxed max-w-xl">
                         {step.description}
                       </p>
                     </div>
                   </div>
 
-                  <div className="sm:text-right shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200/80 text-xs">
-                    <div className="font-bold text-slate-900 flex items-center sm:justify-end gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-teal-600" />
+                  <div className="sm:text-right shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-[#1e382b] text-xs">
+                    <div className="font-bold text-white flex items-center sm:justify-end gap-1">
+                      <Calendar className="w-3.5 h-3.5 text-emerald-400" />
                       <span>{step.date}</span>
                     </div>
-                    <div className="text-[11px] text-slate-500 font-medium mt-0.5">
+                    <div className="text-[11px] text-[#8ea598] font-medium mt-0.5">
                       Actor: {step.actor}
                     </div>
                   </div>
@@ -794,30 +794,30 @@ export const TrackProblem: React.FC = () => {
       </div>
 
       {/* 4. NOTIFICATIONS SECTION */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+      <div className="bg-[#11231b] rounded-3xl border border-[#1e382b] p-6 sm:p-8 shadow-xl space-y-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#1e382b] pb-5">
           <div className="space-y-1">
-            <div className="text-xs font-bold text-teal-800 uppercase tracking-wider flex items-center gap-1.5">
-              <Bell className="w-4 h-4 text-teal-600" />
+            <div className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+              <Bell className="w-4 h-4 text-emerald-400" />
               <span>Real-Time Citizen Dispatch</span>
             </div>
-            <h3 className="text-2xl font-black text-slate-900">
+            <h3 className="text-2xl font-black text-white">
               Notifications
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600">
+            <p className="text-xs sm:text-sm text-[#a5b9ad]">
               Live citizen alerts triggered at every key milestone of your reported issue.
             </p>
           </div>
 
           {/* Channel Filter Pills with "Notification Preview" Notice */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 text-xs">
+          <div className="flex flex-wrap items-center gap-1.5 bg-[#0d1e17] p-1.5 rounded-2xl border border-[#1e382b] text-xs">
             <button
               type="button"
               onClick={() => setSelectedChannel('all')}
-              className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
                 selectedChannel === 'all'
-                  ? 'bg-slate-900 text-white shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-[#8ea598] hover:text-white'
               }`}
             >
               All Alerts ({notificationCards.length})
@@ -825,10 +825,10 @@ export const TrackProblem: React.FC = () => {
             <button
               type="button"
               onClick={() => setSelectedChannel('sms')}
-              className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1 transition-all ${
+              className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1 transition-all cursor-pointer ${
                 selectedChannel === 'sms'
-                  ? 'bg-teal-700 text-white shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-[#8ea598] hover:text-white'
               }`}
             >
               <Phone className="w-3 h-3" />
@@ -837,10 +837,10 @@ export const TrackProblem: React.FC = () => {
             <button
               type="button"
               onClick={() => setSelectedChannel('whatsapp')}
-              className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1 transition-all ${
+              className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1 transition-all cursor-pointer ${
                 selectedChannel === 'whatsapp'
-                  ? 'bg-emerald-700 text-white shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-[#8ea598] hover:text-white'
               }`}
             >
               <MessageSquare className="w-3 h-3" />
@@ -849,10 +849,10 @@ export const TrackProblem: React.FC = () => {
             <button
               type="button"
               onClick={() => setSelectedChannel('email')}
-              className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1 transition-all ${
+              className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1 transition-all cursor-pointer ${
                 selectedChannel === 'email'
-                  ? 'bg-blue-700 text-white shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-[#8ea598] hover:text-white'
               }`}
             >
               <Mail className="w-3 h-3" />
@@ -862,15 +862,15 @@ export const TrackProblem: React.FC = () => {
         </div>
 
         {/* User Request Required Tag for Preview Environment */}
-        <div className="p-3 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-center justify-between gap-3">
+        <div className="p-3 rounded-2xl bg-[#14261d] border border-[#1e382b] text-xs text-amber-200 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+            <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
             <span>
-              <strong>Notification Preview: </strong>
+              <strong className="text-amber-300">Notification Preview: </strong>
               Displaying simulated SMS, WhatsApp, and Email dispatches configured for ticket <strong>{activeTrackingCode}</strong>.
             </span>
           </div>
-          <span className="font-mono text-[10px] bg-amber-200/80 text-amber-900 px-2 py-0.5 rounded font-bold shrink-0">
+          <span className="font-mono text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2 py-0.5 rounded font-bold shrink-0">
             Prototype Preview Mode
           </span>
         </div>
@@ -879,7 +879,7 @@ export const TrackProblem: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left: The 5 Notification Cards */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+            <div className="text-xs font-bold text-[#8ea598] uppercase tracking-wider">
               Notification Stream (5 Milestone Dispatches):
             </div>
 
@@ -893,47 +893,47 @@ export const TrackProblem: React.FC = () => {
                   onClick={() => setSelectedPreviewNotifId(notif.id)}
                   className={`cursor-pointer rounded-2xl border transition-all p-5 space-y-3 ${
                     isSelected
-                      ? 'bg-teal-50/60 border-teal-500 ring-2 ring-teal-500/20 shadow-xs'
-                      : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'
+                      ? 'bg-[#152e22] border-emerald-500 ring-2 ring-emerald-500/30 shadow-lg'
+                      : 'bg-[#0d1e17] border-[#1e382b] hover:border-emerald-600/50 hover:bg-[#12271e]'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="space-y-1">
                       {/* Notification Channel Labels */}
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-100/80 text-teal-800 text-[10px] font-bold border border-teal-200">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#0a1811] text-emerald-300 text-[10px] font-bold border border-emerald-700/50">
                           <Phone className="w-2.5 h-2.5" />
                           SMS Notification Preview
                         </span>
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-100/80 text-emerald-800 text-[10px] font-bold border border-emerald-200">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#0a1811] text-emerald-400 text-[10px] font-bold border border-emerald-600/50">
                           <MessageSquare className="w-2.5 h-2.5" />
                           WhatsApp Preview
                         </span>
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-100/80 text-blue-800 text-[10px] font-bold border border-blue-200">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#0a1811] text-blue-300 text-[10px] font-bold border border-blue-600/50">
                           <Mail className="w-2.5 h-2.5" />
                           Email Preview
                         </span>
                       </div>
 
                       {/* Exact Notification Title */}
-                      <h4 className="text-base font-black text-slate-900 pt-1">
+                      <h4 className="text-base font-black text-white pt-1">
                         "{notif.title}"
                       </h4>
-                      <div className="text-xs text-slate-500 font-medium">
+                      <div className="text-xs text-[#8ea598] font-medium">
                         {notif.titleHi}
                       </div>
                     </div>
 
                     <div className="text-right shrink-0">
-                      <span className="text-[11px] text-slate-500 font-medium block">
+                      <span className="text-[11px] text-[#8ea598] font-medium block">
                         {notif.timestamp}
                       </span>
                       {isActionRequired ? (
-                        <span className="inline-block mt-1 text-[10px] font-black uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-300 px-2 py-0.5 rounded-full">
+                        <span className="inline-block mt-1 text-[10px] font-black uppercase tracking-wider bg-rose-950 text-rose-300 border border-rose-700/60 px-2 py-0.5 rounded-full">
                           Action Required
                         </span>
                       ) : (
-                        <span className="inline-block mt-1 text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                        <span className="inline-block mt-1 text-[10px] font-bold text-emerald-300 bg-emerald-950 border border-emerald-700/60 px-2 py-0.5 rounded-full">
                           Delivered
                         </span>
                       )}
@@ -941,13 +941,13 @@ export const TrackProblem: React.FC = () => {
                   </div>
 
                   {/* Body Text */}
-                  <p className="text-xs text-slate-700 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                  <p className="text-xs text-[#c3d5cb] leading-relaxed bg-[#0a1811] p-3 rounded-xl border border-[#1e382b]">
                     {notif.message}
                   </p>
 
                   {/* Interactive Footer & Action */}
                   <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
-                    <span className="text-[11px] text-slate-500">
+                    <span className="text-[11px] text-[#8ea598]">
                       Click to preview in simulated device →
                     </span>
 
@@ -957,7 +957,7 @@ export const TrackProblem: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => handleCitizenFeedback('resolved')}
-                            className="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg shadow-2xs flex items-center gap-1"
+                            className="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg shadow-sm flex items-center gap-1 cursor-pointer"
                           >
                             <CheckCircle2 className="w-3 h-3" />
                             👍 Haan (Resolve)
@@ -965,7 +965,7 @@ export const TrackProblem: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => handleCitizenFeedback('reopened')}
-                            className="bg-slate-100 hover:bg-rose-50 text-rose-700 border border-rose-300 text-[11px] font-bold px-2.5 py-1.5 rounded-lg flex items-center gap-1"
+                            className="bg-rose-950/80 hover:bg-rose-900/80 text-rose-300 border border-rose-700 text-[11px] font-bold px-2.5 py-1.5 rounded-lg flex items-center gap-1 cursor-pointer"
                           >
                             <AlertCircle className="w-3 h-3" />
                             ⚠️ Nahi (Reopen)
@@ -978,7 +978,7 @@ export const TrackProblem: React.FC = () => {
                           <Button
                             variant="primary"
                             size="sm"
-                            className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold"
+                            className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold"
                             icon={<ExternalLink className="w-3.5 h-3.5" />}
                           >
                             {notif.actionLabel}
@@ -994,9 +994,9 @@ export const TrackProblem: React.FC = () => {
 
           {/* Right: Device Simulator Preview (SMS / WhatsApp / Email) */}
           <div className="lg:col-span-5 sticky top-24 space-y-4">
-            <div className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+            <div className="text-xs font-bold text-[#8ea598] uppercase tracking-wider flex items-center justify-between">
               <span>Interactive Device Simulator</span>
-              <span className="text-[11px] text-teal-700 font-semibold">
+              <span className="text-[11px] text-emerald-400 font-semibold truncate max-w-[200px]">
                 Previewing: {activeSimulatorNotif.title}
               </span>
             </div>
@@ -1150,29 +1150,29 @@ export const TrackProblem: React.FC = () => {
       </div>
 
       {/* 5. NOTIFICATION PREFERENCES SECTION */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-slate-100 pb-4">
+      <div className="bg-[#11231b] rounded-3xl border border-[#1e382b] p-6 sm:p-8 shadow-xl space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#1e382b] pb-4">
           <div className="space-y-1">
-            <div className="text-xs font-bold text-teal-800 uppercase tracking-wider flex items-center gap-1.5">
-              <Settings className="w-4 h-4 text-teal-600" />
+            <div className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+              <Settings className="w-4 h-4 text-emerald-400" />
               <span>Subscriber Management</span>
             </div>
-            <h3 className="text-2xl font-black text-slate-900">
+            <h3 className="text-2xl font-black text-white">
               Notification Preferences
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600">
+            <p className="text-xs sm:text-sm text-[#a5b9ad]">
               Configure how and where you receive citizen alerts, verification requests, and milestone digests for Ticket #{activeTrackingCode}.
             </p>
           </div>
 
-          <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 self-start sm:self-auto">
+          <span className="text-xs font-bold text-[#8ea598] bg-[#0d1e17] px-3 py-1 rounded-full border border-[#1e382b] self-start sm:self-auto">
             Prototype UI • Preferences Localized
           </span>
         </div>
 
         {saveSuccessMessage && (
-          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-bold flex items-center gap-2 animate-fadeIn">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+          <div className="p-4 rounded-2xl bg-emerald-950/80 border border-emerald-600/60 text-emerald-200 text-xs font-bold flex items-center gap-2 animate-fadeIn">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
             <span>{saveSuccessMessage}</span>
           </div>
         )}
@@ -1181,16 +1181,16 @@ export const TrackProblem: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* OPTION 1: SMS */}
             <div className={`p-5 rounded-2xl border transition-all space-y-4 ${
-              prefs.smsEnabled ? 'border-teal-300 bg-teal-50/20' : 'border-slate-200 bg-slate-50'
+              prefs.smsEnabled ? 'border-emerald-600/60 bg-[#0d2218]' : 'border-[#1e382b] bg-[#0a1811]'
             }`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center font-bold">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-700/50 flex items-center justify-center font-bold">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-black text-slate-900">SMS</h4>
-                    <span className="text-[11px] text-slate-500">Carrier Text Gateway</span>
+                    <h4 className="text-sm font-black text-white">SMS</h4>
+                    <span className="text-[11px] text-[#8ea598]">Carrier Text Gateway</span>
                   </div>
                 </div>
 
@@ -1201,12 +1201,12 @@ export const TrackProblem: React.FC = () => {
                     onChange={(e) => setPrefs((prev) => ({ ...prev, smsEnabled: e.target.checked }))}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div>
+                  <div className="w-11 h-6 bg-[#172c21] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#1e382b] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
                 </label>
               </div>
 
               <div className="text-xs space-y-2">
-                <label className="block text-slate-600 font-semibold">
+                <label className="block text-[#c3d5cb] font-semibold">
                   Registered Mobile Number:
                 </label>
                 {isEditingPhone ? (
@@ -1215,29 +1215,29 @@ export const TrackProblem: React.FC = () => {
                       type="text"
                       value={tempPhone}
                       onChange={(e) => setTempPhone(e.target.value)}
-                      className="w-full text-xs font-mono font-bold px-3 py-2 rounded-xl border border-teal-400 focus:outline-none"
+                      className="w-full text-xs font-mono font-bold px-3 py-2 rounded-xl border border-emerald-500 bg-[#060d0a] text-white focus:outline-none"
                     />
                     <button
                       type="button"
                       onClick={() => setIsEditingPhone(false)}
-                      className="px-2.5 py-1 bg-teal-600 text-white text-xs rounded-lg font-bold"
+                      className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white text-xs rounded-lg font-bold cursor-pointer"
                     >
                       OK
                     </button>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between bg-white p-2.5 rounded-xl border border-slate-200">
-                    <span className="font-mono font-bold text-slate-900">{prefs.smsNumber}</span>
+                  <div className="flex items-center justify-between bg-[#060d0a] p-2.5 rounded-xl border border-[#1e382b]">
+                    <span className="font-mono font-bold text-emerald-300">{prefs.smsNumber}</span>
                     <button
                       type="button"
                       onClick={() => setIsEditingPhone(true)}
-                      className="text-[11px] font-bold text-teal-700 hover:underline"
+                      className="text-[11px] font-bold text-emerald-400 hover:underline cursor-pointer"
                     >
                       Change
                     </button>
                   </div>
                 )}
-                <span className="text-[11px] text-slate-500 block">
+                <span className="text-[11px] text-[#8ea598] block">
                   Dispatches verification SMS and OTP verification requests.
                 </span>
               </div>
@@ -1245,16 +1245,16 @@ export const TrackProblem: React.FC = () => {
 
             {/* OPTION 2: WhatsApp */}
             <div className={`p-5 rounded-2xl border transition-all space-y-4 ${
-              prefs.whatsappEnabled ? 'border-emerald-300 bg-emerald-50/20' : 'border-slate-200 bg-slate-50'
+              prefs.whatsappEnabled ? 'border-emerald-600/60 bg-[#0d2218]' : 'border-[#1e382b] bg-[#0a1811]'
             }`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-700/50 flex items-center justify-center font-bold">
                     <MessageSquare className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-black text-slate-900">WhatsApp</h4>
-                    <span className="text-[11px] text-slate-500">Interactive Chatbot</span>
+                    <h4 className="text-sm font-black text-white">WhatsApp</h4>
+                    <span className="text-[11px] text-[#8ea598]">Interactive Chatbot</span>
                   </div>
                 </div>
 
@@ -1265,21 +1265,21 @@ export const TrackProblem: React.FC = () => {
                     onChange={(e) => setPrefs((prev) => ({ ...prev, whatsappEnabled: e.target.checked }))}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                  <div className="w-11 h-6 bg-[#172c21] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#1e382b] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
                 </label>
               </div>
 
               <div className="text-xs space-y-2">
-                <label className="block text-slate-600 font-semibold">
+                <label className="block text-[#c3d5cb] font-semibold">
                   WhatsApp Messaging Line:
                 </label>
-                <div className="flex items-center justify-between bg-white p-2.5 rounded-xl border border-slate-200">
-                  <span className="font-mono font-bold text-slate-900">{prefs.whatsappNumber}</span>
-                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
+                <div className="flex items-center justify-between bg-[#060d0a] p-2.5 rounded-xl border border-[#1e382b]">
+                  <span className="font-mono font-bold text-emerald-300">{prefs.whatsappNumber}</span>
+                  <span className="text-[10px] font-bold text-emerald-300 bg-emerald-950 border border-emerald-700/50 px-2 py-0.5 rounded">
                     Linked
                   </span>
                 </div>
-                <span className="text-[11px] text-slate-500 block">
+                <span className="text-[11px] text-[#8ea598] block">
                   Includes photo updates of student fabrication and 1-click verification prompts.
                 </span>
               </div>
@@ -1287,16 +1287,16 @@ export const TrackProblem: React.FC = () => {
 
             {/* OPTION 3: Email */}
             <div className={`p-5 rounded-2xl border transition-all space-y-4 ${
-              prefs.emailEnabled ? 'border-blue-300 bg-blue-50/20' : 'border-slate-200 bg-slate-50'
+              prefs.emailEnabled ? 'border-emerald-600/60 bg-[#0d2218]' : 'border-[#1e382b] bg-[#0a1811]'
             }`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold">
+                  <div className="w-8 h-8 rounded-xl bg-[#0e2133] text-blue-300 border border-blue-700/50 flex items-center justify-center font-bold">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-black text-slate-900">Email</h4>
-                    <span className="text-[11px] text-slate-500">Official Audit Ledger</span>
+                    <h4 className="text-sm font-black text-white">Email</h4>
+                    <span className="text-[11px] text-[#8ea598]">Official Audit Ledger</span>
                   </div>
                 </div>
 
@@ -1307,12 +1307,12 @@ export const TrackProblem: React.FC = () => {
                     onChange={(e) => setPrefs((prev) => ({ ...prev, emailEnabled: e.target.checked }))}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                  <div className="w-11 h-6 bg-[#172c21] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#1e382b] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
                 </label>
               </div>
 
               <div className="text-xs space-y-2">
-                <label className="block text-slate-600 font-semibold">
+                <label className="block text-[#c3d5cb] font-semibold">
                   Email Address:
                 </label>
                 {isEditingEmail ? (
@@ -1321,31 +1321,31 @@ export const TrackProblem: React.FC = () => {
                       type="email"
                       value={tempEmail}
                       onChange={(e) => setTempEmail(e.target.value)}
-                      className="w-full text-xs font-mono font-bold px-3 py-2 rounded-xl border border-blue-400 focus:outline-none"
+                      className="w-full text-xs font-mono font-bold px-3 py-2 rounded-xl border border-emerald-500 bg-[#060d0a] text-white focus:outline-none"
                     />
                     <button
                       type="button"
                       onClick={() => setIsEditingEmail(false)}
-                      className="px-2.5 py-1 bg-blue-600 text-white text-xs rounded-lg font-bold"
+                      className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white text-xs rounded-lg font-bold cursor-pointer"
                     >
                       OK
                     </button>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between bg-white p-2.5 rounded-xl border border-slate-200">
-                    <span className="font-mono text-slate-900 truncate" title={prefs.emailAddress}>
+                  <div className="flex items-center justify-between bg-[#060d0a] p-2.5 rounded-xl border border-[#1e382b]">
+                    <span className="font-mono text-emerald-300 truncate" title={prefs.emailAddress}>
                       {prefs.emailAddress}
                     </span>
                     <button
                       type="button"
                       onClick={() => setIsEditingEmail(true)}
-                      className="text-[11px] font-bold text-blue-700 hover:underline shrink-0 ml-1"
+                      className="text-[11px] font-bold text-emerald-400 hover:underline shrink-0 ml-1 cursor-pointer"
                     >
                       Change
                     </button>
                   </div>
                 )}
-                <span className="text-[11px] text-slate-500 block">
+                <span className="text-[11px] text-[#8ea598] block">
                   Formal milestone sign-off sheets, lab testing certificates, and audit PDF dossiers.
                 </span>
               </div>
@@ -1353,9 +1353,9 @@ export const TrackProblem: React.FC = () => {
           </div>
 
           {/* Action Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-slate-100">
-            <div className="flex items-center gap-2 text-xs text-slate-500">
-              <Info className="w-4 h-4 text-teal-600 shrink-0" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-[#1e382b]">
+            <div className="flex items-center gap-2 text-xs text-[#8ea598]">
+              <Info className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>You can update or disable notification channels at any point during problem lifecycle.</span>
             </div>
 
@@ -1363,8 +1363,8 @@ export const TrackProblem: React.FC = () => {
               type="submit"
               variant="primary"
               size="md"
-              className="bg-slate-900 hover:bg-slate-800 text-white font-bold"
-              icon={<Check className="w-4 h-4 text-emerald-400" />}
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold cursor-pointer"
+              icon={<Check className="w-4 h-4 text-emerald-200" />}
             >
               Save Notification Preferences (प्राथमिकताएँ सहेजें)
             </Button>

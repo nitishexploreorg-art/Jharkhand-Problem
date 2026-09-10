@@ -1,10 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { Upload, X, Image as ImageIcon, Camera } from 'lucide-react';
+import { useApp } from '../../context/AppContext';
 
 export interface BaseFieldProps {
   label: string;
   labelHi?: string;
   hint?: string;
+  hintHi?: string;
   error?: string;
   required?: boolean;
   id?: string;
@@ -19,6 +21,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   label,
   labelHi,
   hint,
+  hintHi,
   error,
   required = false,
   leadingIcon,
@@ -27,19 +30,22 @@ export const TextInput: React.FC<TextInputProps> = ({
   className = '',
   ...props
 }) => {
+  const { language } = useApp();
+  const isHi = language === 'hi';
+  const displayLabel = labelHi ? (isHi ? labelHi : label) : label;
+  const displayHint = hintHi ? (isHi ? hintHi : hint) : hint;
   const generatedId = id || `field-${label.toLowerCase().replace(/\s+/g, '-')}`;
 
   return (
     <div className="w-full">
-      <label htmlFor={generatedId} className="block text-sm font-semibold text-slate-800 mb-1">
-        {labelHi && <span className="text-emerald-800 mr-1.5">{labelHi}</span>}
-        <span>{label}</span>
-        {required && <span className="text-rose-600 ml-1">*</span>}
+      <label htmlFor={generatedId} className="block text-sm font-semibold text-slate-200 mb-1">
+        <span>{displayLabel}</span>
+        {required && <span className="text-rose-400 ml-1">*</span>}
       </label>
 
       <div className="relative rounded-xl shadow-xs">
         {leadingIcon && (
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#6e8a7c]">
             {leadingIcon}
           </div>
         )}
@@ -47,23 +53,23 @@ export const TextInput: React.FC<TextInputProps> = ({
         <input
           id={generatedId}
           required={required}
-          className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-slate-900 transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600/30 focus:border-emerald-600 ${
+          className={`w-full rounded-xl border bg-[#0b1712] px-3.5 py-2.5 text-sm text-slate-100 transition-colors placeholder:text-[#5c776a] focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 ${
             leadingIcon ? 'pl-10' : ''
           } ${trailingIcon ? 'pr-10' : ''} ${
-            error ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-200' : 'border-slate-300 hover:border-slate-400'
+            error ? 'border-rose-500/80 focus:border-rose-400 focus:ring-rose-500/20' : 'border-[#1e3a2c] hover:border-[#2b4f3c]'
           } ${className}`}
           {...props}
         />
 
         {trailingIcon && (
-          <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
+          <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#6e8a7c]">
             {trailingIcon}
           </div>
         )}
       </div>
 
-      {hint && !error && <p className="text-xs text-slate-500 mt-1">{hint}</p>}
-      {error && <p className="text-xs font-medium text-rose-600 mt-1">{error}</p>}
+      {displayHint && !error && <p className="text-xs text-[#8ea598] mt-1">{displayHint}</p>}
+      {error && <p className="text-xs font-medium text-rose-400 mt-1">{error}</p>}
     </div>
   );
 };
@@ -76,6 +82,7 @@ export const TextArea: React.FC<TextareaProps> = ({
   label,
   labelHi,
   hint,
+  hintHi,
   error,
   required = false,
   rows = 4,
@@ -83,28 +90,31 @@ export const TextArea: React.FC<TextareaProps> = ({
   className = '',
   ...props
 }) => {
+  const { language } = useApp();
+  const isHi = language === 'hi';
+  const displayLabel = labelHi ? (isHi ? labelHi : label) : label;
+  const displayHint = hintHi ? (isHi ? hintHi : hint) : hint;
   const generatedId = id || `textarea-${label.toLowerCase().replace(/\s+/g, '-')}`;
 
   return (
     <div className="w-full">
-      <label htmlFor={generatedId} className="block text-sm font-semibold text-slate-800 mb-1">
-        {labelHi && <span className="text-emerald-800 mr-1.5">{labelHi}</span>}
-        <span>{label}</span>
-        {required && <span className="text-rose-600 ml-1">*</span>}
+      <label htmlFor={generatedId} className="block text-sm font-semibold text-slate-200 mb-1">
+        <span>{displayLabel}</span>
+        {required && <span className="text-rose-400 ml-1">*</span>}
       </label>
 
       <textarea
         id={generatedId}
         rows={rows}
         required={required}
-        className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-slate-900 transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600/30 focus:border-emerald-600 ${
-          error ? 'border-rose-300 focus:border-rose-500' : 'border-slate-300 hover:border-slate-400'
+        className={`w-full rounded-xl border bg-[#0b1712] px-3.5 py-2.5 text-sm text-slate-100 transition-colors placeholder:text-[#5c776a] focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 ${
+          error ? 'border-rose-500/80 focus:border-rose-400' : 'border-[#1e3a2c] hover:border-[#2b4f3c]'
         } ${className}`}
         {...props}
       />
 
-      {hint && !error && <p className="text-xs text-slate-500 mt-1">{hint}</p>}
-      {error && <p className="text-xs font-medium text-rose-600 mt-1">{error}</p>}
+      {displayHint && !error && <p className="text-xs text-[#8ea598] mt-1">{displayHint}</p>}
+      {error && <p className="text-xs font-medium text-rose-400 mt-1">{error}</p>}
     </div>
   );
 };
@@ -124,42 +134,47 @@ export const SelectInput: React.FC<SelectInputProps> = ({
   label,
   labelHi,
   hint,
+  hintHi,
   error,
   required = false,
   options,
-  placeholder = '-- Select an option --',
+  placeholder,
   id,
   className = '',
   ...props
 }) => {
+  const { language } = useApp();
+  const isHi = language === 'hi';
+  const displayLabel = labelHi ? (isHi ? labelHi : label) : label;
+  const displayHint = hintHi ? (isHi ? hintHi : hint) : hint;
+  const defaultPlaceholder = placeholder || (isHi ? '-- विकल्प चुनें --' : '-- Select an option --');
   const generatedId = id || `select-${label.toLowerCase().replace(/\s+/g, '-')}`;
 
   return (
     <div className="w-full">
-      <label htmlFor={generatedId} className="block text-sm font-semibold text-slate-800 mb-1">
-        {labelHi && <span className="text-emerald-800 mr-1.5">{labelHi}</span>}
-        <span>{label}</span>
-        {required && <span className="text-rose-600 ml-1">*</span>}
+      <label htmlFor={generatedId} className="block text-sm font-semibold text-slate-200 mb-1">
+        <span>{displayLabel}</span>
+        {required && <span className="text-rose-400 ml-1">*</span>}
       </label>
 
       <select
         id={generatedId}
         required={required}
-        className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-600/30 focus:border-emerald-600 ${
-          error ? 'border-rose-300' : 'border-slate-300 hover:border-slate-400'
+        className={`w-full rounded-xl border bg-[#0b1712] px-3.5 py-2.5 text-sm text-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 ${
+          error ? 'border-rose-500/80' : 'border-[#1e3a2c] hover:border-[#2b4f3c]'
         } ${className}`}
         {...props}
       >
-        <option value="">{placeholder}</option>
+        <option value="" className="bg-[#0e2018] text-slate-300">{defaultPlaceholder}</option>
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.labelHi ? `${opt.labelHi} (${opt.labelEn})` : opt.labelEn}
+          <option key={opt.value} value={opt.value} className="bg-[#0e2018] text-slate-100">
+            {opt.labelHi ? (isHi ? opt.labelHi : opt.labelEn) : opt.labelEn}
           </option>
         ))}
       </select>
 
-      {hint && !error && <p className="text-xs text-slate-500 mt-1">{hint}</p>}
-      {error && <p className="text-xs font-medium text-rose-600 mt-1">{error}</p>}
+      {displayHint && !error && <p className="text-xs text-[#8ea598] mt-1">{displayHint}</p>}
+      {error && <p className="text-xs font-medium text-rose-400 mt-1">{error}</p>}
     </div>
   );
 };
@@ -168,6 +183,7 @@ export interface FileUploadProps {
   label: string;
   labelHi?: string;
   hint?: string;
+  hintHi?: string;
   onFilesChange?: (files: string[]) => void;
   initialImages?: string[];
   maxFiles?: number;
@@ -176,11 +192,20 @@ export interface FileUploadProps {
 export const FileUploadWithPreview: React.FC<FileUploadProps> = ({
   label,
   labelHi,
-  hint = 'Upload clear photos or video clip of the problem / site. (फोटो या वीडियो साक्ष्य संलग्न करें)',
+  hint,
+  hintHi,
   onFilesChange,
   initialImages = [],
   maxFiles = 4,
 }) => {
+  const { language } = useApp();
+  const isHi = language === 'hi';
+  const displayLabel = labelHi ? (isHi ? labelHi : label) : label;
+  const defaultHint = isHi
+    ? 'समस्या या स्थल की स्पष्ट फ़ोटो या वीडियो क्लिप अपलोड करें।'
+    : 'Upload clear photos or video clip of the problem / site.';
+  const displayHint = hintHi ? (isHi ? hintHi : (hint || defaultHint)) : (hint || defaultHint);
+
   const [images, setImages] = useState<string[]>(initialImages);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -223,9 +248,8 @@ export const FileUploadWithPreview: React.FC<FileUploadProps> = ({
 
   return (
     <div className="w-full">
-      <label className="block text-sm font-semibold text-slate-800 mb-1">
-        {labelHi && <span className="text-emerald-800 mr-1.5">{labelHi}</span>}
-        <span>{label}</span>
+      <label className="block text-sm font-semibold text-slate-200 mb-1">
+        <span>{displayLabel}</span>
       </label>
 
       {/* Drag & Drop Zone */}
@@ -253,8 +277,8 @@ export const FileUploadWithPreview: React.FC<FileUploadProps> = ({
         onClick={() => fileInputRef.current?.click()}
         className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
           isDragging
-            ? 'border-emerald-500 bg-emerald-50/50'
-            : 'border-slate-300 hover:border-emerald-500 bg-slate-50/60 hover:bg-slate-50'
+            ? 'border-emerald-400 bg-[#0e241b]'
+            : 'border-[#1f3b2c] hover:border-emerald-500 bg-[#0b1712] hover:bg-[#0f2018]'
         }`}
       >
         <input
@@ -265,26 +289,26 @@ export const FileUploadWithPreview: React.FC<FileUploadProps> = ({
           onChange={handleFileSelect}
         />
 
-        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
+        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-700/50 flex items-center justify-center">
           <Upload className="w-6 h-6" />
         </div>
 
-        <p className="text-sm font-semibold text-slate-800">
-          फ़ोटो या वीडियो चुनें या यहाँ खींचें (Click to upload or drag & drop)
+        <p className="text-sm font-semibold text-slate-200">
+          {isHi ? 'फ़ोटो या वीडियो चुनें या यहाँ खींचें' : 'Click to upload photo or video, or drag & drop'}
         </p>
-        <p className="text-xs text-slate-500 mt-1">{hint}</p>
+        <p className="text-xs text-[#8ea598] mt-1">{displayHint}</p>
 
         <div className="mt-3 flex items-center justify-center gap-2">
           <button
             type="button"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#13281f] border border-[#234838] text-slate-200 hover:bg-[#1a3529] shadow-xs"
             onClick={(e) => {
               e.stopPropagation();
               handleAddSample(sampleEvidencePresets[images.length % sampleEvidencePresets.length]);
             }}
           >
-            <Camera className="w-3.5 h-3.5 text-emerald-600" />
-            <span>डेमो फ़ोटो जोड़ें (Insert Demo Evidence)</span>
+            <Camera className="w-3.5 h-3.5 text-emerald-400" />
+            <span>{isHi ? 'डेमो फ़ोटो जोड़ें' : 'Insert Demo Evidence'}</span>
           </button>
         </div>
       </div>
@@ -295,7 +319,7 @@ export const FileUploadWithPreview: React.FC<FileUploadProps> = ({
           {images.map((imgUrl, idx) => (
             <div
               key={idx}
-              className="relative aspect-video rounded-xl overflow-hidden border border-slate-200 group bg-slate-100 shadow-xs"
+              className="relative aspect-video rounded-xl overflow-hidden border border-[#234838] group bg-[#0c1a14] shadow-xs"
             >
               <img
                 src={imgUrl}
@@ -306,13 +330,13 @@ export const FileUploadWithPreview: React.FC<FileUploadProps> = ({
               <button
                 type="button"
                 onClick={() => handleRemove(idx)}
-                className="absolute top-1.5 right-1.5 p-1 bg-slate-900/80 text-white rounded-full opacity-80 hover:opacity-100 transition-opacity"
-                title="हटाएं (Remove)"
+                className="absolute top-1.5 right-1.5 p-1 bg-slate-900/90 text-white rounded-full opacity-80 hover:opacity-100 transition-opacity"
+                title={isHi ? 'हटाएं' : 'Remove'}
               >
                 <X className="w-3.5 h-3.5" />
               </button>
-              <div className="absolute bottom-1 left-1.5 text-[10px] bg-black/60 text-white px-1.5 py-0.5 rounded font-mono">
-                Evidence #{idx + 1}
+              <div className="absolute bottom-1 left-1.5 text-[10px] bg-black/80 text-emerald-300 px-1.5 py-0.5 rounded font-mono border border-emerald-900/50">
+                {isHi ? `साक्ष्य #${idx + 1}` : `Evidence #${idx + 1}`}
               </div>
             </div>
           ))}

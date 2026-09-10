@@ -36,7 +36,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseClasses =
-    'inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none cursor-pointer';
+    'inline-flex items-center justify-center font-medium transition-all duration-150 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none select-none cursor-pointer';
 
   const sizeClasses: Record<ButtonSize, string> = {
     sm: 'text-xs px-3 py-1.5 rounded-lg gap-1.5 min-h-[36px]',
@@ -47,21 +47,21 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantClasses: Record<ButtonVariant, string> = {
     primary:
-      'bg-emerald-700 hover:bg-emerald-800 text-white shadow-sm hover:shadow focus:ring-emerald-600 border border-emerald-800 active:scale-[0.98]',
+      'bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm hover:shadow focus:ring-emerald-400 border border-emerald-500/80 active:scale-[0.98]',
     secondary:
-      'bg-slate-800 hover:bg-slate-900 text-white shadow-sm hover:shadow focus:ring-slate-700 border border-slate-900 active:scale-[0.98]',
+      'bg-[#13281f] hover:bg-[#1a3529] text-slate-100 shadow-sm hover:shadow focus:ring-emerald-600 border border-[#234838] active:scale-[0.98]',
     'citizen-large':
-      'bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold shadow-md hover:shadow-lg focus:ring-emerald-500 border border-emerald-500 active:scale-[0.98] ring-2 ring-emerald-400/20 text-lg md:text-xl py-4 px-6 md:px-8 rounded-2xl',
+      'bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-black shadow-lg hover:shadow-xl focus:ring-emerald-400 border border-emerald-400/60 active:scale-[0.98] ring-2 ring-emerald-400/20 text-lg md:text-xl py-4 px-6 md:px-8 rounded-2xl',
     saffron:
-      'bg-amber-600 hover:bg-amber-700 text-white font-semibold shadow-sm hover:shadow focus:ring-amber-500 border border-amber-700 active:scale-[0.98]',
+      'bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold shadow-sm hover:shadow focus:ring-amber-400 border border-amber-400 active:scale-[0.98]',
     outline:
-      'bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 hover:border-slate-400 focus:ring-slate-400 active:scale-[0.98]',
+      'bg-[#0f2119] hover:bg-[#162e23] text-slate-200 border border-[#203c2e] hover:border-emerald-500/60 focus:ring-emerald-500 active:scale-[0.98]',
     danger:
-      'bg-rose-600 hover:bg-rose-700 text-white shadow-sm hover:shadow focus:ring-rose-500 border border-rose-700 active:scale-[0.98]',
+      'bg-rose-700 hover:bg-rose-600 text-white shadow-sm hover:shadow focus:ring-rose-500 border border-rose-600 active:scale-[0.98]',
     success:
-      'bg-green-600 hover:bg-green-700 text-white shadow-sm hover:shadow focus:ring-green-500 border border-green-700 active:scale-[0.98]',
+      'bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm hover:shadow focus:ring-emerald-500 border border-emerald-500 active:scale-[0.98]',
     ghost:
-      'bg-transparent hover:bg-slate-100 text-slate-700 border border-transparent focus:ring-slate-300',
+      'bg-transparent hover:bg-[#12241c] text-slate-300 hover:text-white border border-transparent focus:ring-emerald-600',
   };
 
   const widthClass = fullWidth ? 'w-full' : '';

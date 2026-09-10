@@ -248,16 +248,16 @@ export const DemoJourneyGuideModal: React.FC<{
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-xs animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-xs animate-fadeIn">
+      <div className="bg-[#0d1e17] rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-[#1e382b] overflow-hidden text-slate-100">
         {/* Modal Header */}
-        <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-teal-950 text-white p-5 sm:p-6 flex items-center justify-between border-b-4 border-teal-500 shrink-0">
+        <div className="bg-[#060d0a] text-white p-5 sm:p-6 flex items-center justify-between border-b-4 border-emerald-600 shrink-0">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="bg-amber-400 text-slate-950 text-[10px] font-black uppercase px-2 py-0.5 rounded-full font-mono">
                 ⚡ 3–5 Min Hackathon Judge Walkthrough
               </span>
-              <span className="text-teal-300 text-xs font-semibold hidden sm:inline">
+              <span className="text-emerald-400 text-xs font-semibold hidden sm:inline">
                 End-to-End Civic Innovation Loop
               </span>
             </div>
@@ -269,7 +269,7 @@ export const DemoJourneyGuideModal: React.FC<{
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+            className="p-2 rounded-xl bg-[#12241c] hover:bg-[#1a3529] text-slate-300 hover:text-white transition-colors cursor-pointer"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
@@ -277,7 +277,7 @@ export const DemoJourneyGuideModal: React.FC<{
         </div>
 
         {/* Horizontal Step Indicator Chips */}
-        <div className="bg-slate-900 px-4 py-2.5 overflow-x-auto border-b border-slate-800 shrink-0 flex items-center gap-1.5 scrollbar-thin">
+        <div className="bg-[#091510] px-4 py-2.5 overflow-x-auto border-b border-[#14261d] shrink-0 flex items-center gap-1.5 scrollbar-thin">
           {DEMO_STEPS.map((step, idx) => {
             const isSelected = idx === currentStepIdx;
             return (
@@ -285,10 +285,10 @@ export const DemoJourneyGuideModal: React.FC<{
                 key={step.stepNumber}
                 type="button"
                 onClick={() => setCurrentStepIdx(idx)}
-                className={`px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 ${
+                className={`px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
                   isSelected
-                    ? 'bg-teal-500 text-slate-950 shadow-xs'
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'bg-[#0f2119] hover:bg-[#162e22] text-[#8ea598] hover:text-white border border-[#1b3426]'
                 }`}
               >
                 <span className="font-mono text-[11px] opacity-80">
@@ -302,35 +302,35 @@ export const DemoJourneyGuideModal: React.FC<{
 
         {/* Active Step Detailed Content */}
         <div className="p-6 sm:p-8 overflow-y-auto flex-1 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-4 border-b border-slate-100">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-4 border-b border-[#1a3527]">
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <span className="w-8 h-8 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center font-black text-sm">
+                <span className="w-8 h-8 rounded-xl bg-emerald-950 text-emerald-400 border border-emerald-700/60 flex items-center justify-center font-black text-sm">
                   {activeStep.stepNumber}
                 </span>
-                <span className="text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full border border-slate-200">
+                <span className="text-xs font-bold uppercase tracking-wider bg-[#13281f] text-slate-200 px-2.5 py-1 rounded-full border border-[#234838]">
                   Role: {activeStep.roleLabel}
                 </span>
-                <span className="text-xs font-bold text-teal-700">
+                <span className="text-xs font-bold text-emerald-400">
                   Step {activeStep.stepNumber} of 10
                 </span>
               </div>
 
-              <h3 className="text-2xl font-black text-slate-900">
+              <h3 className="text-2xl font-black text-white">
                 {activeStep.title}
               </h3>
-              <div className="text-sm font-semibold text-slate-500">
+              <div className="text-sm font-semibold text-emerald-400">
                 {activeStep.titleHi}
               </div>
             </div>
 
             {/* Prototype Demo Data Notice */}
-            <div className="bg-amber-50 border border-amber-300 rounded-2xl p-3 text-xs text-amber-900 max-w-xs shrink-0 space-y-1">
-              <div className="font-bold flex items-center gap-1">
+            <div className="bg-amber-950/60 border border-amber-500/50 rounded-2xl p-3 text-xs text-amber-200 max-w-xs shrink-0 space-y-1">
+              <div className="font-bold flex items-center gap-1 text-amber-300">
                 <span>⚠️</span>
                 <span>Prototype Demo Data</span>
               </div>
-              <p className="text-[11px] text-amber-800 leading-tight">
+              <p className="text-[11px] text-amber-300/80 leading-tight">
                 Simulated for hackathon evaluation. Does not claim real government sanctions, real escrow, or legally binding contracts.
               </p>
             </div>
@@ -338,21 +338,21 @@ export const DemoJourneyGuideModal: React.FC<{
 
           {/* Description & Highlights */}
           <div className="space-y-4">
-            <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-normal bg-slate-50 p-4 rounded-2xl border border-slate-200">
+            <p className="text-sm sm:text-base text-slate-200 leading-relaxed font-normal bg-[#08130d] p-4 rounded-2xl border border-[#1d392a]">
               {activeStep.summary}
             </p>
 
             <div className="space-y-2">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#8ea598]">
                 Key Features Evaluated in this Step:
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {activeStep.keyHighlights.map((hl, i) => (
                   <div
                     key={i}
-                    className="p-3 bg-white rounded-xl border border-slate-200 text-xs font-medium text-slate-800 flex items-start gap-2 shadow-2xs"
+                    className="p-3 bg-[#11231b] rounded-xl border border-[#1e382b] text-xs font-medium text-slate-200 flex items-start gap-2 shadow-2xs"
                   >
-                    <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <span>{hl}</span>
                   </div>
                 ))}
@@ -362,7 +362,7 @@ export const DemoJourneyGuideModal: React.FC<{
         </div>
 
         {/* Modal Navigation Footer */}
-        <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+        <div className="bg-[#08130d] px-6 py-4 border-t border-[#1a3528] flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <Button
               variant="outline"
@@ -389,7 +389,7 @@ export const DemoJourneyGuideModal: React.FC<{
               variant="outline"
               size="sm"
               onClick={onClose}
-              className="text-slate-600"
+              className="text-slate-300"
             >
               Close Guide
             </Button>
@@ -399,7 +399,7 @@ export const DemoJourneyGuideModal: React.FC<{
               variant="primary"
               size="sm"
               onClick={() => handleNavigateToStep(activeStep.route)}
-              className="bg-teal-600 hover:bg-teal-500 text-white font-bold"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold"
               icon={<ExternalLink className="w-4 h-4" />}
             >
               {activeStep.actionText} →
@@ -416,23 +416,23 @@ export const DemoJourneyHomeSection: React.FC = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-teal-950 text-white rounded-3xl p-6 sm:p-10 border-b-4 border-teal-500 shadow-lg space-y-6">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+      <div className="bg-[#0d1e17] text-white rounded-3xl p-6 sm:p-10 border border-[#1e382b] border-b-4 border-b-emerald-600 shadow-xl space-y-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[#1a3528]">
           <div className="space-y-2 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-900/80 border border-teal-500/40 text-teal-300 text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-teal-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-600/50 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
               <span>For Hackathon Evaluators & Judges</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-white">
               The 10-Step Civic Innovation Journey
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#9db3a6] leading-relaxed">
               Explore how a grassroots civic complaint transforms into an engineering capstone, secures industry CSR funding, and closes with verified ground deployment in under 5 minutes.
             </p>
           </div>
 
           <div className="shrink-0 flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/40 text-xs font-mono font-bold">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/50 text-xs font-mono font-bold">
               <span>⚠️</span>
               <span>Prototype Demo Data</span>
             </span>
@@ -441,7 +441,7 @@ export const DemoJourneyHomeSection: React.FC = () => {
               variant="primary"
               size="md"
               onClick={() => setModalOpen(true)}
-              className="bg-teal-600 hover:bg-teal-500 text-white font-bold shadow-xs whitespace-nowrap"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-xs whitespace-nowrap"
               icon={<Play className="w-4 h-4" />}
             >
               Start 3-Min Walkthrough
@@ -455,26 +455,26 @@ export const DemoJourneyHomeSection: React.FC = () => {
             <Link
               key={step.stepNumber}
               to={step.route}
-              className="group bg-slate-900/90 hover:bg-slate-800 p-3.5 rounded-2xl border border-slate-800 hover:border-teal-500 transition-all space-y-2 flex flex-col justify-between"
+              className="group bg-[#0b1712] hover:bg-[#10231a] p-3.5 rounded-2xl border border-[#1a3427] hover:border-emerald-500 transition-all space-y-2 flex flex-col justify-between"
             >
               <div className="space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] font-bold text-teal-400 bg-teal-950 px-2 py-0.5 rounded border border-teal-800">
+                  <span className="font-mono text-[10px] font-bold text-emerald-400 bg-emerald-950/90 px-2 py-0.5 rounded border border-emerald-800">
                     Step {step.stepNumber < 10 ? `0${step.stepNumber}` : step.stepNumber}
                   </span>
-                  <div className="text-slate-400 group-hover:text-teal-300 transition-colors">
+                  <div className="text-slate-400 group-hover:text-emerald-300 transition-colors">
                     {step.icon}
                   </div>
                 </div>
-                <h4 className="text-xs font-bold text-white group-hover:text-teal-200 transition-colors line-clamp-1">
+                <h4 className="text-xs font-bold text-white group-hover:text-emerald-200 transition-colors line-clamp-1">
                   {step.title}
                 </h4>
-                <p className="text-[11px] text-slate-400 line-clamp-2 leading-tight">
+                <p className="text-[11px] text-[#8ea598] line-clamp-2 leading-tight">
                   {step.summary}
                 </p>
               </div>
 
-              <div className="pt-2 border-t border-slate-800 text-[10px] font-semibold text-teal-400 flex items-center justify-between">
+              <div className="pt-2 border-t border-[#1a3427] text-[10px] font-semibold text-emerald-400 flex items-center justify-between">
                 <span>{step.roleLabel.split(' ')[0]}</span>
                 <span className="group-hover:translate-x-0.5 transition-transform">→</span>
               </div>

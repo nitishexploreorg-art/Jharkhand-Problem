@@ -91,26 +91,26 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority, showIcon
     critical: {
       labelEn: 'Critical',
       labelHi: 'अति-संवेदनशील',
-      class: 'bg-rose-100 text-rose-800 border-rose-200',
-      iconClass: 'text-rose-600',
+      class: 'bg-rose-950/80 text-rose-300 border-rose-800/60',
+      iconClass: 'text-rose-400',
     },
     high: {
       labelEn: 'High Priority',
       labelHi: 'उच्च प्राथमिकता',
-      class: 'bg-amber-100 text-amber-800 border-amber-200',
-      iconClass: 'text-amber-600',
+      class: 'bg-amber-950/80 text-amber-300 border-amber-800/60',
+      iconClass: 'text-amber-400',
     },
     medium: {
       labelEn: 'Medium Priority',
       labelHi: 'मध्यम',
-      class: 'bg-blue-100 text-blue-800 border-blue-200',
-      iconClass: 'text-blue-600',
+      class: 'bg-blue-950/80 text-blue-300 border-blue-800/60',
+      iconClass: 'text-blue-400',
     },
     low: {
       labelEn: 'Routine',
       labelHi: 'सामान्य',
-      class: 'bg-slate-100 text-slate-800 border-slate-200',
-      iconClass: 'text-slate-500',
+      class: 'bg-[#13271e] text-slate-300 border-[#203f31]',
+      iconClass: 'text-slate-400',
     },
   };
 
@@ -124,10 +124,10 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority, showIcon
         <span
           className={`w-1.5 h-1.5 rounded-full ${
             priority === 'critical'
-              ? 'bg-rose-600 animate-ping'
+              ? 'bg-rose-400 animate-ping'
               : priority === 'high'
-              ? 'bg-amber-600'
-              : 'bg-blue-600'
+              ? 'bg-amber-400'
+              : 'bg-blue-400'
           }`}
         />
       )}
@@ -145,7 +145,7 @@ export const CategoryBadge: React.FC<{ nameEn: string; nameHi?: string }> = ({
   const label = isHi ? nameHi || nameEn : nameEn;
 
   return (
-    <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200 whitespace-nowrap">
+    <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#13271e] text-slate-200 border border-[#203f31] whitespace-nowrap">
       {label}
     </span>
   );

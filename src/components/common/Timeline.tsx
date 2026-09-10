@@ -21,8 +21,8 @@ export const LifecycleTimeline: React.FC<LifecycleTimelineProps> = ({
 
   if (orientation === 'horizontal') {
     return (
-      <div className="w-full overflow-x-auto pb-4 pt-2">
-        <div className="flex items-center min-w-[760px] justify-between px-2">
+      <div className="w-full max-w-full min-w-0 overflow-x-auto pb-4 pt-2">
+        <div className="flex items-center min-w-[680px] lg:min-w-full justify-between px-2">
           {PLATFORM_STAGES.map((s, idx) => {
             const isCompleted = idx < activeIdx;
             const isCurrent = idx === activeIdx;

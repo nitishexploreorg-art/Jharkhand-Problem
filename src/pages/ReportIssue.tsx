@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { motion, useReducedMotion } from 'motion/react';
 import { useApp } from '../context/AppContext';
 import { JHARKHAND_CATEGORIES, JHARKHAND_DISTRICTS } from '../data/jharkhandData';
 import { Button } from '../components/common/Button';
+import { SuccessCheckAnimation } from '../components/common/SuccessCheckAnimation';
 import { Coordinates, Problem } from '../types';
 import {
   Camera,
@@ -408,25 +410,25 @@ export const ReportIssue: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[85vh] bg-slate-50 py-6 sm:py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-[85vh] bg-[#060d0a] py-6 sm:py-10 px-4 sm:px-6 lg:px-8 text-slate-100">
       <div className="max-w-3xl mx-auto">
         {/* Top Header & Context */}
         <div className="mb-6 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold mb-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-600" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0d2218] border border-[#1e4231] text-emerald-300 text-xs font-bold mb-2 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span>नागरिक प्रपत्र • Citizen Problem Submission</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             अपनी समस्या दर्ज करें
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-md mx-auto">
+          <p className="text-xs sm:text-sm text-[#8ea598] mt-1 max-w-md mx-auto">
             कम से कम टाइपिंग: केवल फोटो लें, बोलकर बताएं और लोकेशन ऑटो-डिटेक्ट करें।
           </p>
         </div>
 
         {/* Step Progress Tracker (Steps 0 to 4) */}
         {currentStep !== 'ai_processing' && currentStep !== 'result' && (
-          <div className="bg-white rounded-2xl p-3 sm:p-4 border border-slate-200 shadow-xs mb-6">
+          <div className="bg-[#11231b] rounded-2xl p-3 sm:p-4 border border-[#1e382b] shadow-xs mb-6">
             <div className="flex items-center justify-between text-xs">
               {[
                 { id: 'entry', num: '0', label: 'प्रवेश (Entry)' },
@@ -445,17 +447,17 @@ export const ReportIssue: React.FC = () => {
                     <div
                       className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all ${
                         isPassed
-                          ? 'bg-emerald-600 text-white'
+                          ? 'bg-emerald-600 text-white shadow-xs'
                           : isCurrent
-                          ? 'bg-emerald-700 text-white ring-4 ring-emerald-100'
-                          : 'bg-slate-100 text-slate-400'
+                          ? 'bg-emerald-500 text-white ring-4 ring-emerald-500/20 shadow-md font-black'
+                          : 'bg-[#081510] border border-[#1e382b] text-[#5d7c6d]'
                       }`}
                     >
                       {isPassed ? <Check className="w-4 h-4" /> : s.num}
                     </div>
                     <span
                       className={`text-[10px] sm:text-xs mt-1 font-semibold truncate max-w-full ${
-                        isCurrent ? 'text-emerald-800 font-bold' : 'text-slate-500'
+                        isCurrent ? 'text-emerald-300 font-bold' : isPassed ? 'text-[#8ea598]' : 'text-[#5d7c6d]'
                       }`}
                     >
                       {s.label}
@@ -471,12 +473,12 @@ export const ReportIssue: React.FC = () => {
         {/* STEP 0: ENTRY (Mobile Number vs Guest Mode) */}
         {/* ========================================================================= */}
         {currentStep === 'entry' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md space-y-6">
+          <div className="bg-[#11231b] rounded-3xl p-6 sm:p-8 border border-[#1e382b] shadow-xl space-y-6">
             <div className="text-center space-y-1">
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+              <h2 className="text-xl sm:text-2xl font-black text-white">
                 शुरुआत करें (Step 0: Choose Entry Mode)
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-[#8ea598]">
                 सुविधा अनुसार मोबाइल नंबर से जारी रखें या बिना अकाउंट के अतिथि मोड में तुरंत रिपोर्ट करें।
               </p>
             </div>
@@ -486,24 +488,24 @@ export const ReportIssue: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setEntryMode('guest')}
-                className={`p-4 rounded-2xl border-2 text-left transition-all flex flex-col justify-between ${
+                className={`p-4 rounded-2xl border-2 text-left transition-all flex flex-col justify-between cursor-pointer ${
                   entryMode === 'guest'
-                    ? 'border-emerald-600 bg-emerald-50/60 shadow-xs'
-                    : 'border-slate-200 hover:border-slate-300 bg-white'
+                    ? 'border-emerald-500 bg-[#0d2319] shadow-sm'
+                    : 'border-[#1e382b] hover:border-[#2a4d3c] bg-[#0c1a14]'
                 }`}
               >
                 <div>
-                  <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-md inline-block mb-2">
+                  <span className="text-xs font-bold text-emerald-300 bg-emerald-950/90 border border-emerald-800/80 px-2 py-0.5 rounded-md inline-block mb-2">
                     अनुशंसित (Recommended)
                   </span>
-                  <h3 className="font-bold text-slate-900 text-sm sm:text-base">
+                  <h3 className="font-bold text-white text-sm sm:text-base">
                     Guest Mode — Account ke bina Problem Report Karein
                   </h3>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-[#8ea598] mt-1">
                     कोई ओटीपी या पासवर्ड नहीं। केवल नाम और संपर्क नंबर भरें।
                   </p>
                 </div>
-                <div className="mt-3 flex items-center text-xs font-bold text-emerald-700">
+                <div className="mt-3 flex items-center text-xs font-bold text-emerald-400">
                   {entryMode === 'guest' ? '✓ चयनित (Selected)' : 'चुनें'}
                 </div>
               </button>
@@ -511,24 +513,24 @@ export const ReportIssue: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setEntryMode('mobile_otp')}
-                className={`p-4 rounded-2xl border-2 text-left transition-all flex flex-col justify-between ${
+                className={`p-4 rounded-2xl border-2 text-left transition-all flex flex-col justify-between cursor-pointer ${
                   entryMode === 'mobile_otp'
-                    ? 'border-emerald-600 bg-emerald-50/60 shadow-xs'
-                    : 'border-slate-200 hover:border-slate-300 bg-white'
+                    ? 'border-emerald-500 bg-[#0d2319] shadow-sm'
+                    : 'border-[#1e382b] hover:border-[#2a4d3c] bg-[#0c1a14]'
                 }`}
               >
                 <div>
-                  <span className="text-xs font-bold text-blue-800 bg-blue-100 px-2 py-0.5 rounded-md inline-block mb-2">
+                  <span className="text-xs font-bold text-blue-300 bg-blue-950/90 border border-blue-800/80 px-2 py-0.5 rounded-md inline-block mb-2">
                     एसएमएस अलर्ट
                   </span>
-                  <h3 className="font-bold text-slate-900 text-sm sm:text-base">
+                  <h3 className="font-bold text-white text-sm sm:text-base">
                     Mobile Number se Continue
                   </h3>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-[#8ea598] mt-1">
                     ओटीपी सत्यापन के साथ स्थिति अपडेट सीधे आपके फोन पर।
                   </p>
                 </div>
-                <div className="mt-3 flex items-center text-xs font-bold text-emerald-700">
+                <div className="mt-3 flex items-center text-xs font-bold text-emerald-400">
                   {entryMode === 'mobile_otp' ? '✓ चयनित (Selected)' : 'चुनें'}
                 </div>
               </button>
@@ -536,10 +538,10 @@ export const ReportIssue: React.FC = () => {
 
             {/* Guest Mode Fields */}
             {entryMode === 'guest' && (
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
+              <div className="p-4 bg-[#0c1a14] rounded-2xl border border-[#1e382b] space-y-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-emerald-700" />
+                  <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5 text-emerald-400" />
                     <span>आपका नाम (Your Name) *</span>
                   </label>
                   <input
@@ -547,13 +549,13 @@ export const ReportIssue: React.FC = () => {
                     value={citizenName}
                     onChange={(e) => setCitizenName(e.target.value)}
                     placeholder="उदा. बिरसा मुंडा / Birsa Munda"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 text-sm bg-white"
+                    className="w-full px-4 py-3 rounded-xl border border-[#1e382b] focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm bg-[#081510] text-white placeholder-[#527060]"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                    <Phone className="w-3.5 h-3.5 text-emerald-700" />
+                  <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                    <Phone className="w-3.5 h-3.5 text-emerald-400" />
                     <span>मोबाइल नंबर (Mobile Number) *</span>
                   </label>
                   <input
@@ -561,9 +563,9 @@ export const ReportIssue: React.FC = () => {
                     value={mobileNumber}
                     onChange={(e) => setMobileNumber(e.target.value)}
                     placeholder="10 अंकों का मोबाइल नंबर"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 text-sm bg-white"
+                    className="w-full px-4 py-3 rounded-xl border border-[#1e382b] focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm bg-[#081510] text-white placeholder-[#527060]"
                   />
-                  <span className="text-[11px] text-slate-500">
+                  <span className="text-[11px] text-[#8ea598]">
                     ट्रैकिंग कोड एसएमएस द्वारा भेजने हेतु उपयोग किया जाएगा।
                   </span>
                 </div>
@@ -572,9 +574,9 @@ export const ReportIssue: React.FC = () => {
 
             {/* Mobile OTP Simulation Fields */}
             {entryMode === 'mobile_otp' && (
-              <div className="p-4 bg-blue-50/60 rounded-2xl border border-blue-200 space-y-4">
+              <div className="p-4 bg-[#0a1824] rounded-2xl border border-blue-900/60 space-y-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-800">
+                  <label className="text-xs font-bold text-blue-200">
                     मोबाइल नंबर दर्ज करें (Enter Mobile Number)
                   </label>
                   <div className="flex gap-2">
@@ -583,12 +585,12 @@ export const ReportIssue: React.FC = () => {
                       value={mobileNumber}
                       onChange={(e) => setMobileNumber(e.target.value)}
                       placeholder="उदा. 9872144810"
-                      className="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 text-sm bg-white"
+                      className="flex-1 px-4 py-3 rounded-xl border border-blue-800/60 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm bg-[#061018] text-white placeholder-[#4e6c80]"
                     />
                     <button
                       type="button"
                       onClick={() => setOtpSent(true)}
-                      className="px-4 py-3 bg-emerald-700 text-white rounded-xl text-xs font-bold hover:bg-emerald-800"
+                      className="px-4 py-3 bg-emerald-600 text-white rounded-xl text-xs font-bold hover:bg-emerald-500 transition-colors cursor-pointer"
                     >
                       {otpSent ? 'ओटीपी पुनः भेजें' : 'ओटीपी भेजें'}
                     </button>
@@ -596,14 +598,14 @@ export const ReportIssue: React.FC = () => {
                 </div>
 
                 {otpSent && (
-                  <div className="p-3 bg-white rounded-xl border border-emerald-300 space-y-2 text-xs">
-                    <div className="flex items-center justify-between text-emerald-800 font-bold">
+                  <div className="p-3 bg-[#0d2217] rounded-xl border border-emerald-700/60 space-y-2 text-xs">
+                    <div className="flex items-center justify-between text-emerald-300 font-bold">
                       <span>📱 डेमो एसएमएस (Demo Simulated OTP):</span>
-                      <span className="font-mono bg-emerald-100 px-2 py-0.5 rounded text-sm text-emerald-900 font-black">
+                      <span className="font-mono bg-emerald-950 px-2 py-0.5 rounded text-sm text-emerald-200 font-black border border-emerald-800">
                         {demoOtpValue}
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-500">
+                    <p className="text-[11px] text-[#8ea598]">
                       प्रोटोटाइप परीक्षण हेतु यह ओटीपी नीचे दर्ज करें:
                     </p>
                     <div className="flex gap-2 items-center">
@@ -618,10 +620,10 @@ export const ReportIssue: React.FC = () => {
                           }
                         }}
                         placeholder="4281"
-                        className="w-32 px-3 py-2 text-center font-mono font-bold text-lg rounded-lg border border-slate-300 focus:border-emerald-600"
+                        className="w-32 px-3 py-2 text-center font-mono font-bold text-lg rounded-lg border border-[#1e382b] bg-[#081510] text-white focus:border-emerald-500"
                       />
                       {isOtpVerified ? (
-                        <span className="text-emerald-700 font-bold flex items-center gap-1">
+                        <span className="text-emerald-400 font-bold flex items-center gap-1">
                           <CheckCircle2 className="w-4 h-4" /> सत्यापित (Verified)
                         </span>
                       ) : (
@@ -631,7 +633,7 @@ export const ReportIssue: React.FC = () => {
                             setOtpInput(demoOtpValue);
                             setIsOtpVerified(true);
                           }}
-                          className="text-xs text-blue-700 underline font-semibold"
+                          className="text-xs text-blue-400 hover:text-blue-300 underline font-semibold cursor-pointer"
                         >
                           स्वचालित भरें (Auto-Fill)
                         </button>

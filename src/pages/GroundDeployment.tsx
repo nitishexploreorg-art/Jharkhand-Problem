@@ -608,16 +608,15 @@ export const GroundDeployment: React.FC = () => {
                 After (Deployed Unit)
               </div>
 
-              {/* Before Image (Clipped Foreground) */}
+              {/* Before Image (Clipped Foreground with CSS clipPath for perfect responsive alignment) */}
               <div
-                className="absolute inset-0 overflow-hidden border-r-2 border-white shadow-xl"
-                style={{ width: `${sliderPosition}%` }}
+                className="absolute inset-0 overflow-hidden"
+                style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
               >
                 <img
                   src="https://images.unsplash.com/photo-1541888946425-d0fbb186c5f7?auto=format&fit=crop&w=1200&q=80"
                   alt="Before Contaminated Water"
-                  className="absolute inset-0 w-full h-full object-cover max-w-none"
-                  style={{ width: '100%', minWidth: '600px' }}
+                  className="absolute inset-0 w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute top-3 left-3 bg-rose-600/90 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-xs">
@@ -961,9 +960,9 @@ export const GroundDeployment: React.FC = () => {
         {/* Stepper Display */}
         <div className="relative">
           {/* Horizontal Desktop Bar */}
-          <div className="hidden lg:block absolute top-5 left-8 right-8 h-1 bg-slate-200 z-0" />
+          <div className="hidden xl:block absolute top-5 left-8 right-8 h-1 bg-slate-200 z-0" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4 relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-7 gap-4 relative z-10">
             {timelineSteps.map((step, idx) => {
               const isDone = step.status === 'completed';
               const isActive = step.status === 'active';
